@@ -1,6 +1,6 @@
 package fr.flowsqy.abstractmob;
 
-import fr.flowsqy.abstractmob.thread.IterationRunnable;
+import fr.flowsqy.abstractmob.thread.EntityUpdaterRunnable;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -13,25 +13,22 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.bukkit.metadata.MetadataValue;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Consumer;
-import org.bukkit.util.Vector;
 
-import java.util.List;
 import java.util.Random;
 
 public class TestListener implements Listener {
 
     private final AbstractMobPlugin plugin;
-    private final IterationRunnable<Entity> runnable;
-    private final IterationRunnable<EntityDamageByEntityEvent> velocityRunnable;
+    //private final IterationRunnable<Entity> runnable;
+    //private final IterationRunnable<EntityDamageByEntityEvent> velocityRunnable;
 
-    public TestListener(AbstractMobPlugin abstractMobPlugin, IterationRunnable<Entity> runnable, IterationRunnable<EntityDamageByEntityEvent> velocityRunnable) {
+    public TestListener(AbstractMobPlugin abstractMobPlugin) {
         this.plugin = abstractMobPlugin;
-        this.runnable = runnable;
-        this.velocityRunnable = velocityRunnable;
+        //this.runnable = runnable;
+        //this.velocityRunnable = velocityRunnable;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
@@ -41,7 +38,7 @@ public class TestListener implements Listener {
         if(event.isNewChunk()){
             return;
         }
-        runnable.add(event.getChunk().getEntities());
+        plugin.getEntityUpdaterTask().queue(new EntityUpdaterRunnable(event.getChunk().getEntities()));
     }
 
     @EventHandler
@@ -49,16 +46,16 @@ public class TestListener implements Listener {
         final Player player = event.getPlayer();
         final Consumer<Zombie> entityConsumer = e -> {
             e.getPersistentDataContainer().set(
-                    plugin.LIGHTING_ON_DEATH_KEY,
+                    Keys.LIGHTING_ON_DEATH_KEY,
                     PersistentDataType.BYTE,
                     (byte) 1
             );
             e.setMetadata(
-                    AbstractMobPlugin.LIGHTING_ON_DEATH,
+                    Keys.LIGHTING_ON_DEATH,
                     new FixedMetadataValue(plugin, true)
             );
             e.setMetadata(
-                    AbstractMobPlugin.KNOCKBACK,
+                    Keys.KNOCKBACK,
                     new FixedMetadataValue(plugin, 2.0)
             );
             final AttributeInstance instance = e.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK);
@@ -147,25 +144,13 @@ public class TestListener implements Listener {
 
     @EventHandler
     public void onKnock(EntityDamageByEntityEvent event){
-        Entity damagerEntity = event.getDamager();
-        if (damagerEntity instanceof Projectile projectile && projectile.getShooter() instanceof Entity shooterEntity) {
-            damagerEntity = shooterEntity;
-        }
-        final List<MetadataValue> values = damagerEntity.getMetadata(AbstractMobPlugin.KNOCKBACK);
-        if (values.isEmpty()) {
-            return;
-        }
-        double up = 0;
-        for(MetadataValue value : values){
-            up += value.asDouble();
-        }
-        event.getEntity().setVelocity(event.getEntity().getVelocity().setY(up / values.size()));
+
     }
 
     @EventHandler
     public void onDeath(EntityDeathEvent event){
         final LivingEntity entity = event.getEntity();
-        if(entity.hasMetadata(AbstractMobPlugin.LIGHTING_ON_DEATH)){
+        if(entity.hasMetadata(Keys.LIGHTING_ON_DEATH)){
             entity.getWorld().strikeLightning(entity.getLocation());
             entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, SoundCategory.AMBIENT, 1.0f, 1.0f);
         }
