@@ -20,8 +20,8 @@ public class UpdateListener implements Listener {
     }
 
     public void loadSpawnChunks() {
-        for(World world : Bukkit.getWorlds()){
-            for(Chunk chunk : world.getLoadedChunks()){
+        for (World world : Bukkit.getWorlds()) {
+            for (Chunk chunk : world.getLoadedChunks()) {
                 updateTask.loadEntities(chunk.getEntities());
             }
         }
