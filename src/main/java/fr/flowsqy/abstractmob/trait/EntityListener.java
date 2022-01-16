@@ -8,16 +8,17 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
 
-public class EntityListener {
+public class EntityListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onDeath(EntityDeathEvent event) {
+    private void onDeath(EntityDeathEvent event) {
         final LivingEntity entity = event.getEntity();
         if (entity.hasMetadata(Keys.LIGHTNING_ON_DEATH.getKey())) {
             entity.getWorld().strikeLightning(entity.getLocation());
@@ -26,7 +27,7 @@ public class EntityListener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onKnock(EntityDamageByEntityEvent event) {
+    private void onKnock(EntityDamageByEntityEvent event) {
         Entity damagerEntity = event.getDamager();
         if (damagerEntity instanceof Projectile projectile && projectile.getShooter() instanceof Entity shooterEntity) {
             damagerEntity = shooterEntity;

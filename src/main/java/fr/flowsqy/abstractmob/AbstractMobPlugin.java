@@ -1,6 +1,7 @@
 package fr.flowsqy.abstractmob;
 
 import fr.flowsqy.abstractmob.key.Keys;
+import fr.flowsqy.abstractmob.trait.EntityListener;
 import fr.flowsqy.abstractmob.updater.KeyUpdater;
 import fr.flowsqy.abstractmob.updater.UpdateListener;
 import fr.flowsqy.abstractmob.updater.UpdaterTask;
@@ -23,6 +24,9 @@ public class AbstractMobPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(updateListener, this);
         updateListener.loadSpawnChunks();
         updateTask.start();
+
+        // Register traits
+        Bukkit.getPluginManager().registerEvents(new EntityListener(), this);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class UpdateListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onChunkLoad(ChunkLoadEvent event) {
+    private void onChunkLoad(ChunkLoadEvent event) {
         if (event.isNewChunk()) {
             return;
         }
