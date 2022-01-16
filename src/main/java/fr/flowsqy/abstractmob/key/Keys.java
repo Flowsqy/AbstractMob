@@ -6,9 +6,9 @@ import org.bukkit.NamespacedKey;
 
 public enum Keys {
 
-    LIGHTNING_ON_DEATH("lightning_on_death", KeyUpdater.Commons.INTEGER),
+    LIGHTNING_ON_DEATH("lightning_on_death", KeyUpdater.Commons.CHANCES),
     KNOCKBACK_UP("knockback_up", KeyUpdater.Commons.DOUBLE),
-    WEB_ON_WALK("web_on_walk", KeyUpdater.Commons.INTEGER);
+    WEB_ON_WALK("web_on_walk", KeyUpdater.Commons.CHANCES);
 
     private final String key;
     private final KeyUpdater updater;
