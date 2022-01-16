@@ -14,9 +14,6 @@ public class UpdateListener implements Listener {
 
     public UpdateListener(UpdaterTask updateTask) {
         this.updateTask = updateTask;
-
-        // Add already generated chunk (spawn chunks) to update every entity
-
     }
 
     public void loadSpawnChunks() {
