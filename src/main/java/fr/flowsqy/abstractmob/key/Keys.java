@@ -1,4 +1,4 @@
-package fr.flowsqy.abstractmob.keys;
+package fr.flowsqy.abstractmob.key;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import fr.flowsqy.abstractmob.updater.KeyUpdater;

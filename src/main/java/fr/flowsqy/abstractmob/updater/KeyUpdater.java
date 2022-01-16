@@ -1,7 +1,7 @@
 package fr.flowsqy.abstractmob.updater;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
-import fr.flowsqy.abstractmob.keys.Keys;
+import fr.flowsqy.abstractmob.key.Keys;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;

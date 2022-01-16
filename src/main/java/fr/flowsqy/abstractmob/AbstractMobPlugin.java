@@ -1,6 +1,6 @@
 package fr.flowsqy.abstractmob;
 
-import fr.flowsqy.abstractmob.keys.Keys;
+import fr.flowsqy.abstractmob.key.Keys;
 import fr.flowsqy.abstractmob.updater.KeyUpdater;
 import fr.flowsqy.abstractmob.updater.UpdateListener;
 import fr.flowsqy.abstractmob.updater.UpdaterTask;

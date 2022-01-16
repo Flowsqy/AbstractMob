@@ -1,6 +1,6 @@
-package fr.flowsqy.abstractmob.traits;
+package fr.flowsqy.abstractmob.trait;
 
-import fr.flowsqy.abstractmob.keys.Keys;
+import fr.flowsqy.abstractmob.key.Keys;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Entity;
