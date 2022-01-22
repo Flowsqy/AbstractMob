@@ -2,6 +2,7 @@ package fr.flowsqy.abstractmob.updater;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import fr.flowsqy.abstractmob.key.Keys;
+import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.metadata.MetadataValue;
@@ -182,19 +183,12 @@ public interface KeyUpdater {
 
         @Override
         protected MetadataValue loadValue(Integer value) {
-            if (value < 0) {
-                throw new IllegalArgumentException("The chances can not be bellow 0");
-            }
-            return super.loadValue(value >= 100 ? 0 : value * 1000);
+            return super.loadValue(ChancesChecker.classicToPlugin(value));
         }
 
         @Override
         protected Integer saveValue(MetadataValue value) {
-            final int metadataValue = super.saveValue(value);
-            if (metadataValue < 0) {
-                throw new IllegalArgumentException("The chances can not be bellow 0");
-            }
-            return metadataValue == 0 ? 100 : metadataValue / 1000;
+            return ChancesChecker.pluginToClassic(super.saveValue(value));
         }
     }
 
