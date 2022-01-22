@@ -12,7 +12,6 @@ public class CustomEntity {
     private final Class<? extends Entity> type;
     private final List<EntityPropertyList<?>> modifiers;
     private int quantity;
-    private double maxLife;
     private int lightningChances;
     private int spiderWebChances;
     private double knockBack;
@@ -37,18 +36,6 @@ public class CustomEntity {
             throw new IllegalArgumentException("Can not set quantity to 0 or bellow");
         }
         this.quantity = quantity;
-    }
-
-    public double getMaxLife() {
-        return maxLife;
-    }
-
-    public void setMaxLife(double maxLife) {
-        // TODO Check this with the modifier for max life
-        if (maxLife <= 0.5) {
-            throw new IllegalArgumentException("Can not set quantity to 0.5 or bellow");
-        }
-        this.maxLife = maxLife;
     }
 
     public Optional<EntityPropertyList<?>> getModifiers(Class<?> clazz) {
