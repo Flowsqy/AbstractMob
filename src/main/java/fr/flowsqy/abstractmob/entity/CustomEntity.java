@@ -105,7 +105,6 @@ public class CustomEntity {
 
         final int doubledRadius = radius * 2;
         for (int i = 0; i < quantity; i++) {
-
             Location spawnLocation = location;
             if (radius > 0) {
                 final Vector vector = new Vector(
@@ -121,7 +120,6 @@ public class CustomEntity {
             }
             world.spawn(spawnLocation, type, false, (entity -> modifiers.forEach(list -> list.loadEntity(entity))));
         }
-
     }
 
 }
