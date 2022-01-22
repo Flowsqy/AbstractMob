@@ -1,12 +1,16 @@
 package fr.flowsqy.abstractmob.entity;
 
-import org.bukkit.entity.EntityType;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.util.Vector;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class CustomEntity {
 
-    private EntityType type;
+    private Class<? extends Entity> type;
     private int quantity;
 
     private double maxLife;
@@ -15,16 +19,16 @@ public class CustomEntity {
     private int spiderWebChances;
     private double knockBack;
 
-    public CustomEntity(EntityType type, int quantity) {
+    public CustomEntity(Class<? extends Entity> type, int quantity) {
         setType(type);
         setQuantity(quantity);
     }
 
-    public EntityType getType() {
+    public Class<? extends Entity> getType() {
         return type;
     }
 
-    public void setType(EntityType type) {
+    public void setType(Class<? extends Entity> type) {
         Objects.requireNonNull(type);
         this.type = type;
     }
@@ -75,4 +79,49 @@ public class CustomEntity {
     public void setKnockBack(double knockBack) {
         this.knockBack = knockBack;
     }
+
+    public void spawn(Random random, Location location) {
+        spawn(random, location, 0, false, quantity);
+    }
+
+    public void spawn(Random random, Location location, int radius) {
+        spawn(random, location, radius, false, quantity);
+    }
+
+    public void spawn(Random random, Location location, int radius, boolean highestBlock) {
+        spawn(random, location, radius, highestBlock, quantity);
+    }
+
+    public void spawn(Random random, Location location, int radius, boolean highestBlock, int quantity) {
+        Objects.requireNonNull(random);
+        if (quantity < 1) {
+            throw new IllegalArgumentException("Quantity can not be below 1");
+        }
+        final World world = location.getWorld();
+        Objects.requireNonNull(world);
+
+        final int doubledRadius = radius * 2;
+        for (int i = 0; i < quantity; i++) {
+
+            Location spawnLocation = location;
+            if (radius > 0) {
+                final Vector vector = new Vector(
+                        random.nextInt(doubledRadius) - radius,
+                        0,
+                        random.nextInt(doubledRadius) - radius
+                );
+                vector.normalize().multiply(radius * random.nextDouble());
+                spawnLocation = spawnLocation.clone().add(vector);
+            }
+            if (highestBlock) {
+                spawnLocation = world.getHighestBlockAt(spawnLocation).getLocation().add(0, 1, 0);
+            }
+            world.spawn(spawnLocation, type, false, (entity -> {
+                entity.setCustomName("Coucou");
+                entity.setCustomNameVisible(true);
+            }));
+        }
+
+    }
+
 }
