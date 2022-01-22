@@ -5,32 +5,27 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class CustomEntity {
 
-    private Class<? extends Entity> type;
+    private final Class<? extends Entity> type;
+    private final List<EntityPropertyList<?>> modifiers;
     private int quantity;
-
     private double maxLife;
-
     private int lightningChances;
     private int spiderWebChances;
     private double knockBack;
 
     public CustomEntity(Class<? extends Entity> type, int quantity) {
-        setType(type);
+        Objects.requireNonNull(type);
+        this.type = type;
         setQuantity(quantity);
+        modifiers = new ArrayList<>();
     }
 
     public Class<? extends Entity> getType() {
         return type;
-    }
-
-    public void setType(Class<? extends Entity> type) {
-        Objects.requireNonNull(type);
-        this.type = type;
     }
 
     public int getQuantity() {
@@ -54,6 +49,23 @@ public class CustomEntity {
             throw new IllegalArgumentException("Can not set quantity to 0.5 or bellow");
         }
         this.maxLife = maxLife;
+    }
+
+    public Optional<EntityPropertyList<?>> getModifiers(Class<?> clazz) {
+        return modifiers.stream().filter(entityPropertyList -> entityPropertyList.getClazz() == clazz).findAny();
+    }
+
+    public EntityPropertyList<?> getOrRegisterModifiers(Class<?> clazz) {
+        final Optional<EntityPropertyList<?>> entityPropertyList = getModifiers(clazz);
+        if (entityPropertyList.isEmpty()) {
+            if (!clazz.isAssignableFrom(type)) {
+                throw new IllegalArgumentException(type.getName() + " can not be cast to " + clazz.getName());
+            }
+            final EntityPropertyList<?> newEntityPropertyList = new EntityPropertyList<>(clazz, new ArrayList<>());
+            modifiers.add(newEntityPropertyList);
+            return newEntityPropertyList;
+        }
+        return entityPropertyList.get();
     }
 
     public int getLightningChances() {
@@ -116,10 +128,7 @@ public class CustomEntity {
             if (highestBlock) {
                 spawnLocation = world.getHighestBlockAt(spawnLocation).getLocation().add(0, 1, 0);
             }
-            world.spawn(spawnLocation, type, false, (entity -> {
-                entity.setCustomName("Coucou");
-                entity.setCustomNameVisible(true);
-            }));
+            world.spawn(spawnLocation, type, false, (entity -> modifiers.forEach(list -> list.loadEntity(entity))));
         }
 
     }
