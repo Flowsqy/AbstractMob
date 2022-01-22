@@ -38,17 +38,21 @@ public class CustomEntity {
         this.quantity = quantity;
     }
 
-    public Optional<EntityPropertyList<?>> getModifiers(Class<?> clazz) {
-        return modifiers.stream().filter(entityPropertyList -> entityPropertyList.getClazz() == clazz).findAny();
+    @SuppressWarnings("unchecked")
+    public <T> Optional<EntityPropertyList<T>> getModifiers(Class<T> clazz) {
+        final Optional<EntityPropertyList<?>> propertyList = modifiers.stream()
+                .filter(entityPropertyList -> entityPropertyList.getClazz() == clazz)
+                .findAny();
+        return propertyList.map(entityPropertyList -> (EntityPropertyList<T>) entityPropertyList);
     }
 
-    public EntityPropertyList<?> getOrRegisterModifiers(Class<?> clazz) {
-        final Optional<EntityPropertyList<?>> entityPropertyList = getModifiers(clazz);
+    public <T> EntityPropertyList<T> getOrRegisterModifiers(Class<T> clazz) {
+        final Optional<EntityPropertyList<T>> entityPropertyList = getModifiers(clazz);
         if (entityPropertyList.isEmpty()) {
             if (!clazz.isAssignableFrom(type)) {
                 throw new IllegalArgumentException(type.getName() + " can not be cast to " + clazz.getName());
             }
-            final EntityPropertyList<?> newEntityPropertyList = new EntityPropertyList<>(clazz, new ArrayList<>());
+            final EntityPropertyList<T> newEntityPropertyList = new EntityPropertyList<>(clazz, new ArrayList<>());
             modifiers.add(newEntityPropertyList);
             return newEntityPropertyList;
         }
