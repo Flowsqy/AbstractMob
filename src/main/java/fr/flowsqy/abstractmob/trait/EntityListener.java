@@ -16,16 +16,13 @@ import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 public class EntityListener implements Listener {
 
     private final AbstractMobPlugin plugin;
-    private final Random random;
 
     public EntityListener(AbstractMobPlugin plugin) {
         this.plugin = plugin;
-        random = new Random();
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
@@ -41,9 +38,8 @@ public class EntityListener implements Listener {
         if (pluginValue.isEmpty()) {
             return;
         }
-        final int chances = pluginValue.get().asInt();
         // Check chances and fire the lightning
-        if (chances == 0 || random.nextInt(100_000) < chances) {
+        if (plugin.getChancesChecker().canPerform(pluginValue.get().asInt())) {
             entity.getWorld().strikeLightning(entity.getLocation());
             entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, SoundCategory.AMBIENT, 1.0f, 1.0f);
         }

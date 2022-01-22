@@ -1,6 +1,7 @@
 package fr.flowsqy.abstractmob;
 
 import fr.flowsqy.abstractmob.key.Keys;
+import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import fr.flowsqy.abstractmob.trait.EntityListener;
 import fr.flowsqy.abstractmob.updater.KeyUpdater;
 import fr.flowsqy.abstractmob.updater.UpdateListener;
@@ -11,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AbstractMobPlugin extends JavaPlugin {
 
     private UpdaterTask updateTask;
+    private ChancesChecker chancesChecker;
 
     @Override
     public void onEnable() {
@@ -26,12 +28,17 @@ public class AbstractMobPlugin extends JavaPlugin {
         updateTask.start();
 
         // Register traits
-        Bukkit.getPluginManager().registerEvents(new EntityListener(), this);
+        chancesChecker = new ChancesChecker();
+        Bukkit.getPluginManager().registerEvents(new EntityListener(this), this);
     }
 
     @Override
     public void onDisable() {
         updateTask.stop();
         Bukkit.getScheduler().cancelTasks(this);
+    }
+
+    public ChancesChecker getChancesChecker() {
+        return chancesChecker;
     }
 }

@@ -6,16 +6,18 @@ import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
+import java.util.Objects;
 
 public class SpiderWebTask extends BukkitRunnable {
 
     private final Entity entity;
+    private final ChancesChecker chancesChecker;
     private final int chances;
-    private final Random random;
     private int px, py, pz;
 
-    public SpiderWebTask(Entity entity, int chances) {
+    public SpiderWebTask(Entity entity, ChancesChecker chancesChecker, int chances) {
+        Objects.requireNonNull(entity);
+        Objects.requireNonNull(chancesChecker);
         if (chances < 0) {
             throw new IllegalArgumentException("Useless spider task for a negative spawn probability");
         }
@@ -23,8 +25,8 @@ public class SpiderWebTask extends BukkitRunnable {
             throw new IllegalArgumentException("Wrong value for spider task, chance must be between 0 and 99 * 10E5");
         }
         this.entity = entity;
+        this.chancesChecker = chancesChecker;
         this.chances = chances;
-        this.random = this.chances == 0 ? null : new Random();
     }
 
     @Override
@@ -47,7 +49,7 @@ public class SpiderWebTask extends BukkitRunnable {
         pz = z;
 
         // Check chances and place the cobweb
-        if (chances == 0 || random.nextInt(100_000) < chances) {
+        if (chancesChecker.canPerform(chances)) {
             entity.getWorld().getBlockAt(px, py, pz).setType(Material.COBWEB);
         }
     }
