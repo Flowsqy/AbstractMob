@@ -8,7 +8,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-public class CustomEntity {
+public class EntityBuilder {
 
     private final Class<? extends Entity> type;
     private final List<EntityPropertyList<?>> modifiers;
@@ -17,7 +17,7 @@ public class CustomEntity {
     private int spiderWebChances;
     private double knockBack;
 
-    public CustomEntity(Class<? extends Entity> type, int quantity) {
+    public EntityBuilder(Class<? extends Entity> type, int quantity) {
         Objects.requireNonNull(type);
         this.type = type;
         setQuantity(quantity);
