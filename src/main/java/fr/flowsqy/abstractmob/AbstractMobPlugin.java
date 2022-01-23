@@ -42,6 +42,10 @@ public class AbstractMobPlugin extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
     }
 
+    public UpdaterTask getUpdateTask() {
+        return updateTask;
+    }
+
     public Random getRandom() {
         return random;
     }

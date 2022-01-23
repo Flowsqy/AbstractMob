@@ -3,9 +3,7 @@ package fr.flowsqy.abstractmob.entity;
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.util.Vector;
 
 import java.util.*;
@@ -21,41 +19,6 @@ public class EntityBuilder {
         this.type = type;
         setQuantity(quantity);
         modifiers = new LinkedList<>();
-    }
-
-    /**
-     * Deserialize an EntityBuilder from a configuration section
-     *
-     * @param section The section to deserialize
-     * @return An {@link EntityBuilder} described by the specified section
-     */
-    public static EntityBuilder deserialize(ConfigurationSection section) {
-        Objects.requireNonNull(section);
-        final String entityTypeRaw = section.getString("type");
-        final EntityType entityType = getEnumConstant(EntityType.class, entityTypeRaw);
-        final Class<? extends Entity> entityClass;
-        if (entityType == null || entityType.equals(EntityType.UNKNOWN) || (entityClass = entityType.getEntityClass()) == null) {
-            return null;
-        }
-        final EntityBuilder builder = new EntityBuilder(entityClass, section.getInt("quantity", 1));
-
-        // TODO Add properties
-
-        return builder;
-    }
-
-    private static <T extends Enum<T>> T getEnumConstant(Class<T> enumClass, String value) {
-        if (enumClass == null || value == null)
-            return null;
-
-        value = value.trim().toUpperCase();
-
-        for (final T constant : enumClass.getEnumConstants()) {
-            if (constant.name().equals(value))
-                return constant;
-        }
-
-        return null;
     }
 
     public Class<? extends Entity> getType() {
