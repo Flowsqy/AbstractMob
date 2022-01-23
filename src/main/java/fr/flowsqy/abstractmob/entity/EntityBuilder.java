@@ -13,9 +13,6 @@ public class EntityBuilder {
     private final Class<? extends Entity> type;
     private final List<EntityPropertyList<?>> modifiers;
     private int quantity;
-    private int lightningChances;
-    private int spiderWebChances;
-    private double knockBack;
 
     public EntityBuilder(Class<? extends Entity> type, int quantity) {
         Objects.requireNonNull(type);
@@ -53,35 +50,11 @@ public class EntityBuilder {
             if (!clazz.isAssignableFrom(type)) {
                 throw new IllegalArgumentException(type.getName() + " can not be cast to " + clazz.getName());
             }
-            final EntityPropertyList<T> newEntityPropertyList = new EntityPropertyList<>(clazz, new ArrayList<>());
+            final EntityPropertyList<T> newEntityPropertyList = new EntityPropertyList<>(clazz, new LinkedList<>());
             modifiers.add(newEntityPropertyList);
             return newEntityPropertyList;
         }
         return entityPropertyList.get();
-    }
-
-    public int getLightningChances() {
-        return lightningChances;
-    }
-
-    public void setLightningChances(int lightningChances) {
-        this.lightningChances = lightningChances;
-    }
-
-    public int getSpiderWebChances() {
-        return spiderWebChances;
-    }
-
-    public void setSpiderWebChances(int spiderWebChances) {
-        this.spiderWebChances = spiderWebChances;
-    }
-
-    public double getKnockBack() {
-        return knockBack;
-    }
-
-    public void setKnockBack(double knockBack) {
-        this.knockBack = knockBack;
     }
 
     public void spawn(AbstractMobPlugin plugin, Location location) {
@@ -133,13 +106,12 @@ public class EntityBuilder {
             if (highestBlock) {
                 spawnLocation = world.getHighestBlockAt(spawnLocation).getLocation().add(0, 1, 0);
             }
-            final Entity spawnedEntity = world.spawn(
+            world.spawn(
                     spawnLocation,
                     type,
                     false,
-                    (entity -> modifiers.forEach(list -> list.loadEntity(entity)))
+                    entity -> modifiers.forEach(list -> list.loadEntity(entity))
             );
-            // TODO Load traits
         }
     }
 
