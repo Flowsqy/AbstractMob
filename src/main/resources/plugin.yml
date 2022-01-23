@@ -3,3 +3,5 @@ author: Flowsqy
 version: "${project.version}"
 main: fr.flowsqy.abstractmob.AbstractMobPlugin
 api-version: "1.13"
+depend:
+  - AbstractMenu
