@@ -9,9 +9,12 @@ import fr.flowsqy.abstractmob.updater.UpdaterTask;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Random;
+
 public class AbstractMobPlugin extends JavaPlugin {
 
     private UpdaterTask updateTask;
+    private Random random;
     private ChancesChecker chancesChecker;
 
     @Override
@@ -28,7 +31,8 @@ public class AbstractMobPlugin extends JavaPlugin {
         updateTask.start();
 
         // Register traits
-        chancesChecker = new ChancesChecker();
+        random = new Random();
+        chancesChecker = new ChancesChecker(this);
         Bukkit.getPluginManager().registerEvents(new EntityListener(this), this);
     }
 
@@ -36,6 +40,10 @@ public class AbstractMobPlugin extends JavaPlugin {
     public void onDisable() {
         updateTask.stop();
         Bukkit.getScheduler().cancelTasks(this);
+    }
+
+    public Random getRandom() {
+        return random;
     }
 
     public ChancesChecker getChancesChecker() {

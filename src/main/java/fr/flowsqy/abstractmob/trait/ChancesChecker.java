@@ -1,5 +1,7 @@
 package fr.flowsqy.abstractmob.trait;
 
+import fr.flowsqy.abstractmob.AbstractMobPlugin;
+
 import java.util.Random;
 
 public class ChancesChecker {
@@ -10,8 +12,8 @@ public class ChancesChecker {
 
     private final Random random;
 
-    public ChancesChecker() {
-        this.random = new Random();
+    public ChancesChecker(AbstractMobPlugin plugin) {
+        this.random = plugin.getRandom();
     }
 
     /**
