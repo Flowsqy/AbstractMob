@@ -1,7 +1,6 @@
 package fr.flowsqy.abstractmob.trait;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
-import fr.flowsqy.abstractmob.key.Keys;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Entity;
@@ -13,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.MetadataValue;
+import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class EntityListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     private void onDeath(EntityDeathEvent event) {
         final LivingEntity entity = event.getEntity();
-        final List<MetadataValue> values = entity.getMetadata(Keys.LIGHTNING_ON_DEATH.getKey());
+        final List<MetadataValue> values = entity.getMetadata(plugin.getCustomKeys().LIGHTNING_ON_DEATH.getKey());
         if (values.isEmpty()) {
             return;
         }
@@ -51,7 +51,7 @@ public class EntityListener implements Listener {
         if (damagerEntity instanceof Projectile projectile && projectile.getShooter() instanceof Entity shooterEntity) {
             damagerEntity = shooterEntity;
         }
-        final List<MetadataValue> values = damagerEntity.getMetadata(Keys.KNOCKBACK_UP.getKey());
+        final List<MetadataValue> values = damagerEntity.getMetadata(plugin.getCustomKeys().KNOCKBACK_UP.getKey());
         if (values.isEmpty()) {
             return;
         }

@@ -1,18 +1,24 @@
 package fr.flowsqy.abstractmob;
 
-import fr.flowsqy.abstractmob.key.Keys;
+import fr.flowsqy.abstractmob.entity.EntityBuilder;
+import fr.flowsqy.abstractmob.entity.EntityBuilderSerializer;
+import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import fr.flowsqy.abstractmob.trait.EntityListener;
-import fr.flowsqy.abstractmob.updater.KeyUpdater;
+import fr.flowsqy.abstractmob.updater.KeyUpdaters;
 import fr.flowsqy.abstractmob.updater.UpdateListener;
 import fr.flowsqy.abstractmob.updater.UpdaterTask;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.StringReader;
 import java.util.Random;
 
 public class AbstractMobPlugin extends JavaPlugin {
 
+    private KeyUpdaters keyUpdaters;
+    private CustomKeys customKeys;
     private UpdaterTask updateTask;
     private Random random;
     private ChancesChecker chancesChecker;
@@ -20,11 +26,11 @@ public class AbstractMobPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Init keys
-        KeyUpdater.Commons.init(this);
-        Keys.initKeys(this);
+        keyUpdaters = new KeyUpdaters(this);
+        customKeys = new CustomKeys(this);
 
         // Create update task, link it with listener and launch it
-        updateTask = new UpdaterTask();
+        updateTask = new UpdaterTask(customKeys);
         final UpdateListener updateListener = new UpdateListener(updateTask);
         Bukkit.getPluginManager().registerEvents(updateListener, this);
         updateListener.loadSpawnChunks();
@@ -40,6 +46,14 @@ public class AbstractMobPlugin extends JavaPlugin {
     public void onDisable() {
         updateTask.stop();
         Bukkit.getScheduler().cancelTasks(this);
+    }
+
+    public KeyUpdaters getKeyUpdaters() {
+        return keyUpdaters;
+    }
+
+    public CustomKeys getCustomKeys() {
+        return customKeys;
     }
 
     public UpdaterTask getUpdateTask() {

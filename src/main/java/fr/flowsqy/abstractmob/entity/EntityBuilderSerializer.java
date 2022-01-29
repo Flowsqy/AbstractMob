@@ -1,7 +1,7 @@
 package fr.flowsqy.abstractmob.entity;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
-import fr.flowsqy.abstractmob.key.Keys;
+import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
@@ -20,7 +20,7 @@ public class EntityBuilderSerializer {
     /**
      * Deserialize an EntityBuilder from a configuration section
      *
-     * @param plugin  The plugin instance used to set metadata and launch custom tasks
+     * @param plugin  The plugin instance used to get custom keys, set metadata and launch custom tasks
      * @param section The section to deserialize
      * @return An {@link EntityBuilder} described by the specified section
      */
@@ -36,6 +36,7 @@ public class EntityBuilderSerializer {
         final EntityBuilder builder = new EntityBuilder(entityClass, section.getInt("quantity", 1));
 
         // Edit properties
+        final CustomKeys customKeys = plugin.getCustomKeys();
 
         // Entity properties
         final ConfigurationSection baseSection = section.getConfigurationSection("base");
@@ -46,7 +47,7 @@ public class EntityBuilderSerializer {
             if (lightningChances != 0) {
                 entityPropertyList
                         .add(entity -> entity.setMetadata(
-                                Keys.LIGHTNING_ON_DEATH.getKey(),
+                                customKeys.LIGHTNING_ON_DEATH.getKey(),
                                 new FixedMetadataValue(plugin, ChancesChecker.classicToPlugin(lightningChances))
                         ));
             }
@@ -55,7 +56,7 @@ public class EntityBuilderSerializer {
             if (spiderwebChances != 0) {
                 entityPropertyList
                         .add(entity -> entity.setMetadata(
-                                Keys.WEB_ON_WALK.getKey(),
+                                customKeys.WEB_ON_WALK.getKey(),
                                 new FixedMetadataValue(plugin, ChancesChecker.classicToPlugin(spiderwebChances))
                         ));
             }
@@ -65,7 +66,7 @@ public class EntityBuilderSerializer {
             if (knockbackUp != 0) {
                 entityPropertyList
                         .add(entity -> entity.setMetadata(
-                                Keys.KNOCKBACK_UP.getKey(),
+                                customKeys.KNOCKBACK_UP.getKey(),
                                 new FixedMetadataValue(plugin, knockbackUp)
                         ));
             }

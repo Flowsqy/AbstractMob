@@ -1,7 +1,7 @@
 package fr.flowsqy.abstractmob.updater;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
-import fr.flowsqy.abstractmob.key.Keys;
+import fr.flowsqy.abstractmob.key.CustomKey;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -19,7 +19,7 @@ public interface KeyUpdater {
      * @param key      The key to load
      * @param entities The entities to update
      */
-    void load(Keys key, Entity... entities);
+    void load(CustomKey key, Entity... entities);
 
     /**
      * Save entities metadata in persistent storage for a specific key
@@ -27,28 +27,25 @@ public interface KeyUpdater {
      * @param key      The key to save
      * @param entities The entities to update
      */
-    void save(Keys key, Entity... entities);
+    void save(CustomKey key, Entity... entities);
 
     abstract class AbstractUpdater implements KeyUpdater {
 
         protected AbstractMobPlugin plugin;
 
-        private void init(AbstractMobPlugin plugin) {
-            if (this.plugin != null) {
-                throw new IllegalStateException("Updater already initialized");
-            }
+        protected AbstractUpdater(AbstractMobPlugin plugin) {
             this.plugin = plugin;
         }
-
     }
 
     class BooleanUpdater extends AbstractUpdater {
 
-        private BooleanUpdater() {
+        BooleanUpdater(AbstractMobPlugin plugin) {
+            super(plugin);
         }
 
         @Override
-        public void load(Keys key, Entity... entities) {
+        public void load(CustomKey key, Entity... entities) {
             final MetadataValue trueValue = new FixedMetadataValue(plugin, true);
             for (Entity entity : entities) {
                 final Byte value = entity.getPersistentDataContainer().get(key.getNamespacedKey(), PersistentDataType.BYTE);
@@ -62,7 +59,7 @@ public interface KeyUpdater {
         }
 
         @Override
-        public void save(Keys key, Entity... entities) {
+        public void save(CustomKey key, Entity... entities) {
             for (Entity entity : entities) {
                 final List<MetadataValue> values = entity.getMetadata(key.getKey());
                 if (values.isEmpty()) {
@@ -83,8 +80,12 @@ public interface KeyUpdater {
 
     abstract class NumberUpdater<T extends Number> extends AbstractUpdater {
 
+        protected NumberUpdater(AbstractMobPlugin plugin) {
+            super(plugin);
+        }
+
         @Override
-        public void load(Keys key, Entity... entities) {
+        public void load(CustomKey key, Entity... entities) {
             for (Entity entity : entities) {
                 final T value = entity.getPersistentDataContainer().get(key.getNamespacedKey(), getDataType());
                 if (value == null) {
@@ -102,7 +103,7 @@ public interface KeyUpdater {
         }
 
         @Override
-        public void save(Keys key, Entity... entities) {
+        public void save(CustomKey key, Entity... entities) {
             for (Entity entity : entities) {
                 final List<MetadataValue> values = entity.getMetadata(key.getKey());
                 if (values.isEmpty()) {
@@ -137,7 +138,8 @@ public interface KeyUpdater {
 
     class IntegerUpdater extends NumberUpdater<Integer> {
 
-        private IntegerUpdater() {
+        IntegerUpdater(AbstractMobPlugin plugin) {
+            super(plugin);
         }
 
         @Override
@@ -159,7 +161,8 @@ public interface KeyUpdater {
 
     class DoubleUpdater extends NumberUpdater<Double> {
 
-        private DoubleUpdater() {
+        DoubleUpdater(AbstractMobPlugin plugin) {
+            super(plugin);
         }
 
         @Override
@@ -181,6 +184,10 @@ public interface KeyUpdater {
 
     class ChancesUpdater extends IntegerUpdater {
 
+        ChancesUpdater(AbstractMobPlugin plugin) {
+            super(plugin);
+        }
+
         @Override
         protected MetadataValue loadValue(Integer value) {
             return super.loadValue(ChancesChecker.classicToPlugin(value));
@@ -190,22 +197,6 @@ public interface KeyUpdater {
         protected Integer saveValue(MetadataValue value) {
             return ChancesChecker.pluginToClassic(super.saveValue(value));
         }
-    }
-
-    class Commons {
-
-        public final static AbstractUpdater BOOLEAN = new BooleanUpdater();
-        public final static AbstractUpdater INTEGER = new IntegerUpdater();
-        public final static AbstractUpdater DOUBLE = new DoubleUpdater();
-        public final static AbstractUpdater CHANCES = new ChancesUpdater();
-
-        public static void init(AbstractMobPlugin plugin) {
-            BOOLEAN.init(plugin);
-            INTEGER.init(plugin);
-            DOUBLE.init(plugin);
-            CHANCES.init(plugin);
-        }
-
     }
 
 }
