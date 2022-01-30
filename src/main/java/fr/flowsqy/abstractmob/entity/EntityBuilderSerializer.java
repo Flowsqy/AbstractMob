@@ -62,7 +62,7 @@ public class EntityBuilderSerializer {
             }
             // TODO Add CustomTask start and stop
 
-            final double knockbackUp = baseSection.getInt("knockback-up", 0);
+            final double knockbackUp = baseSection.getDouble("knockback-up", 0);
             if (knockbackUp != 0) {
                 entityPropertyList
                         .add(entity -> entity.setMetadata(
