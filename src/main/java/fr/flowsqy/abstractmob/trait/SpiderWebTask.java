@@ -51,13 +51,8 @@ public class SpiderWebTask extends BukkitRunnable {
         // Check chances and place the cobweb
         if (chancesChecker.canPerform(chances)) {
             final Block block = entity.getWorld().getBlockAt(px, py, pz);
-            switch (block.getType()) {
-                case AIR:
-                case CAVE_AIR:
-                case VOID_AIR:
-                    block.setType(Material.COBWEB);
-                default:
-                    break;
+            if (block.isPassable()) {
+                block.setType(Material.COBWEB);
             }
         }
     }
