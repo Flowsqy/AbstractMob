@@ -15,12 +15,11 @@ public class CustomKeys {
     private final List<CustomKey> keys;
 
     public CustomKeys(AbstractMobPlugin plugin) {
+        keys = new LinkedList<>();
         final KeyUpdaters keyUpdaters = plugin.getKeyUpdaters();
         LIGHTNING_ON_DEATH = register(new CustomKey("lightning_on_death", keyUpdaters.CHANCES, plugin));
         KNOCKBACK_UP = register(new CustomKey("knockback_up", keyUpdaters.DOUBLE, plugin));
         WEB_ON_WALK = register(new CustomKey("web_on_walk", keyUpdaters.CHANCES, plugin));
-
-        keys = new LinkedList<>();
     }
 
     private CustomKey register(CustomKey customKey) {
