@@ -55,12 +55,16 @@ public class EntityBuilderSerializer {
             final int spiderwebChances = clamp(baseSection.getInt("web-on-walk", 0), 100, 0);
             if (spiderwebChances != 0) {
                 entityPropertyList
-                        .add(entity -> entity.setMetadata(
-                                customKeys.WEB_ON_WALK.getKey(),
-                                new FixedMetadataValue(plugin, ChancesChecker.classicToPlugin(spiderwebChances))
-                        ));
+                        .add(entity -> {
+                                    entity.setMetadata(
+                                            customKeys.WEB_ON_WALK.getKey(),
+                                            new FixedMetadataValue(plugin, ChancesChecker.classicToPlugin(spiderwebChances))
+                                    );
+                                    plugin.getTraitLauncherTask().loadEntities(plugin.getSpiderWebTaskLoader(), entity);
+                                }
+                        );
+
             }
-            // TODO Add CustomTask start and stop
 
             final double knockbackUp = baseSection.getDouble("knockback-up", 0);
             if (knockbackUp != 0) {
