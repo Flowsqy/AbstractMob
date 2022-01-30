@@ -20,7 +20,7 @@ public class TraitTaskListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     private void onEntityLoad(EntityPostLoadEvent event) {
-        traitLauncherTask.loadEntities(spiderWebTaskLoader, event.getEntities());
+        traitLauncherTask.loadTaskEntities(spiderWebTaskLoader, event.getEntities());
     }
 
     @EventHandler(priority = EventPriority.MONITOR)

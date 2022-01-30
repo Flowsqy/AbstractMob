@@ -28,7 +28,13 @@ public class TraitLauncherTask extends ThreadedTask {
         tasks.clear();
     }
 
-    public void loadEntities(BukkitTaskLoader taskLoader, Entity... entities) {
+    /**
+     * Load task for entities
+     *
+     * @param taskLoader A {@link BukkitTaskLoader} to start the task
+     * @param entities The entity associated with the task
+     */
+    public void loadTaskEntities(BukkitTaskLoader taskLoader, Entity... entities) {
         queue(() -> {
             for (Entity entity : entities) {
                 final String identifier = taskLoader.getIdentifier();
@@ -46,6 +52,11 @@ public class TraitLauncherTask extends ThreadedTask {
         });
     }
 
+    /**
+     * Unload entity tasks
+     *
+     * @param entities The entities to unload
+     */
     public void unloadEntities(Entity... entities) {
         queue(() -> {
             for (Entity entity : entities) {

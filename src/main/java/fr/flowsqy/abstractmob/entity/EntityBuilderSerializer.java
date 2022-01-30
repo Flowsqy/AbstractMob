@@ -60,7 +60,7 @@ public class EntityBuilderSerializer {
                                             customKeys.WEB_ON_WALK.getKey(),
                                             new FixedMetadataValue(plugin, ChancesChecker.classicToPlugin(spiderwebChances))
                                     );
-                                    plugin.getTraitLauncherTask().loadEntities(plugin.getSpiderWebTaskLoader(), entity);
+                                    plugin.getTraitLauncherTask().loadTaskEntities(plugin.getSpiderWebTaskLoader(), entity);
                                 }
                         );
 
