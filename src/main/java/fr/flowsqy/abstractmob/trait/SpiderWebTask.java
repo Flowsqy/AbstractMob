@@ -2,6 +2,7 @@ package fr.flowsqy.abstractmob.trait;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -49,7 +50,15 @@ public class SpiderWebTask extends BukkitRunnable {
 
         // Check chances and place the cobweb
         if (chancesChecker.canPerform(chances)) {
-            entity.getWorld().getBlockAt(px, py, pz).setType(Material.COBWEB);
+            final Block block = entity.getWorld().getBlockAt(px, py, pz);
+            switch (block.getType()) {
+                case AIR:
+                case CAVE_AIR:
+                case VOID_AIR:
+                    block.setType(Material.COBWEB);
+                default:
+                    break;
+            }
         }
     }
 
