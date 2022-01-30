@@ -1,6 +1,7 @@
 package fr.flowsqy.abstractmob.trait;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Entity;
@@ -12,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.MetadataValue;
-import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +59,9 @@ public class EntityListener implements Listener {
         for (MetadataValue value : values) {
             up += value.asDouble();
         }
-        event.getEntity().setVelocity(event.getEntity().getVelocity().setY(up / values.size()));
+        final double upValue = up / values.size();
+
+        Bukkit.getScheduler().runTask(plugin, () -> event.getEntity().setVelocity(event.getEntity().getVelocity().setY(upValue)));
     }
 
 
