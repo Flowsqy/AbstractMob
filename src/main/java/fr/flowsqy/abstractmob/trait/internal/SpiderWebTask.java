@@ -1,5 +1,6 @@
-package fr.flowsqy.abstractmob.trait;
+package fr.flowsqy.abstractmob.trait.internal;
 
+import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

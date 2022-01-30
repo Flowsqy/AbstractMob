@@ -1,4 +1,4 @@
-package fr.flowsqy.abstractmob.trait;
+package fr.flowsqy.abstractmob.trait.internal;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import org.bukkit.Bukkit;

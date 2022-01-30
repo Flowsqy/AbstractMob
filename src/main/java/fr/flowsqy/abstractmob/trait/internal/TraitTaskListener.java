@@ -1,7 +1,8 @@
-package fr.flowsqy.abstractmob.trait;
+package fr.flowsqy.abstractmob.trait.internal;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import fr.flowsqy.abstractmob.event.EntityPostLoadEvent;
+import fr.flowsqy.abstractmob.trait.TraitLauncherTask;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

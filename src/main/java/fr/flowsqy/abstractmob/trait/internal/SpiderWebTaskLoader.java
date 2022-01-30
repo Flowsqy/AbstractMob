@@ -1,6 +1,7 @@
-package fr.flowsqy.abstractmob.trait;
+package fr.flowsqy.abstractmob.trait.internal;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
+import fr.flowsqy.abstractmob.trait.BukkitTaskLoader;
 import org.bukkit.entity.Entity;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.scheduler.BukkitTask;
