@@ -1,6 +1,5 @@
 package fr.flowsqy.abstractmob.trait;
 
-import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -52,10 +51,6 @@ public class SpiderWebTask extends BukkitRunnable {
         if (chancesChecker.canPerform(chances)) {
             entity.getWorld().getBlockAt(px, py, pz).setType(Material.COBWEB);
         }
-    }
-
-    public void start(AbstractMobPlugin plugin) {
-        runTaskTimer(plugin, 0L, 1L);
     }
 
 }

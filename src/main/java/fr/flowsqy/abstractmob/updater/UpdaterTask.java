@@ -1,8 +1,10 @@
 package fr.flowsqy.abstractmob.updater;
 
+import fr.flowsqy.abstractmob.event.EntityPostLoadEvent;
 import fr.flowsqy.abstractmob.key.CustomKey;
 import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.thread.ThreadedTask;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 
 public class UpdaterTask extends ThreadedTask {
@@ -27,6 +29,7 @@ public class UpdaterTask extends ThreadedTask {
             for (CustomKey key : customKeys.getKeys()) {
                 key.getUpdater().load(key, entities);
             }
+            Bukkit.getPluginManager().callEvent(new EntityPostLoadEvent(true, entities));
         });
     }
 
