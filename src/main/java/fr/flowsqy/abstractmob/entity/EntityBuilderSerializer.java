@@ -1,5 +1,6 @@
 package fr.flowsqy.abstractmob.entity;
 
+import fr.flowsqy.abstractmenu.item.ItemBuilder;
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
@@ -11,11 +12,15 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Objects;
 import java.util.UUID;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class EntityBuilderSerializer {
@@ -126,6 +131,60 @@ public class EntityBuilderSerializer {
             }
         }
 
+        // Equipment properties
+        final ConfigurationSection equipmentSection = section.getConfigurationSection("equipment");
+        if (equipmentSection != null) {
+            final EntityPropertyList<LivingEntity> livingPropertyList = builder.getOrRegisterModifiers(LivingEntity.class);
+
+            initEquipment(
+                    equipmentSection,
+                    "main-hand",
+                    livingPropertyList,
+                    EntityEquipment::setItemInMainHand,
+                    EntityEquipment::setItemInMainHandDropChance)
+            ;
+
+            initEquipment(
+                    equipmentSection,
+                    "off-hand",
+                    livingPropertyList,
+                    EntityEquipment::setItemInOffHand,
+                    EntityEquipment::setItemInOffHandDropChance)
+            ;
+
+            initEquipment(
+                    equipmentSection,
+                    "helmet",
+                    livingPropertyList,
+                    EntityEquipment::setHelmet,
+                    EntityEquipment::setHelmetDropChance)
+            ;
+
+            initEquipment(
+                    equipmentSection,
+                    "chestplate",
+                    livingPropertyList,
+                    EntityEquipment::setChestplate,
+                    EntityEquipment::setChestplateDropChance)
+            ;
+
+            initEquipment(
+                    equipmentSection,
+                    "leggings",
+                    livingPropertyList,
+                    EntityEquipment::setLeggings,
+                    EntityEquipment::setLeggingsDropChance)
+            ;
+
+            initEquipment(
+                    equipmentSection,
+                    "boots",
+                    livingPropertyList,
+                    EntityEquipment::setBoots,
+                    EntityEquipment::setBootsDropChance)
+            ;
+        }
+
         // Creeper
         final ConfigurationSection creeperSection = section.getConfigurationSection("creeper");
         if (creeperSection != null) {
@@ -160,6 +219,36 @@ public class EntityBuilderSerializer {
             return maximum;
         }
         return Math.max(value, minimum);
+    }
+
+    private static void initEquipment(
+            ConfigurationSection equipmentSection,
+            String path,
+            EntityPropertyList<LivingEntity> livingPropertyList,
+            EquipmentFunction equipmentMethod,
+            BiConsumer<EntityEquipment, Float> dropMethod
+    ) {
+        final ConfigurationSection itemSection = equipmentSection.getConfigurationSection(path);
+        if (itemSection != null) {
+            final ItemBuilder itemBuilder = ItemBuilder.deserialize(itemSection);
+            final ItemStack itemStack = itemBuilder.create(null);
+            if (itemStack != null) {
+                livingPropertyList.add(livingEntity -> {
+                    final EntityEquipment equipment = livingEntity.getEquipment();
+                    if (equipment != null) {
+                        equipmentMethod.setEquipment(equipment, itemStack, true);
+                        dropMethod.accept(equipment, 0.0f);
+                    }
+                });
+            }
+        }
+    }
+
+    @FunctionalInterface
+    private interface EquipmentFunction {
+
+        void setEquipment(EntityEquipment equipment, ItemStack itemStack, boolean silent);
+
     }
 
 }
