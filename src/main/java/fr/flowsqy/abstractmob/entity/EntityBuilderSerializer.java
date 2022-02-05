@@ -8,6 +8,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.EquipmentSlot;
@@ -122,6 +123,18 @@ public class EntityBuilderSerializer {
                         ));
                     }
                 });
+            }
+        }
+
+        // Creeper
+        final ConfigurationSection creeperSection = section.getConfigurationSection("creeper");
+        if (creeperSection != null) {
+            final EntityPropertyList<Creeper> creeperPropertyList = builder.getOrRegisterModifiers(Creeper.class);
+
+            final boolean charged = creeperSection.getBoolean("charged", false);
+
+            if (charged) {
+                creeperPropertyList.add(creeper -> creeper.setPowered(true));
             }
         }
 
