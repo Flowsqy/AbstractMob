@@ -3,12 +3,19 @@ package fr.flowsqy.abstractmob.entity;
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
+import org.bukkit.attribute.Attributable;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Objects;
+import java.util.UUID;
+import java.util.function.Consumer;
 
 public class EntityBuilderSerializer {
 
@@ -76,6 +83,46 @@ public class EntityBuilderSerializer {
             }
 
             entityPropertyList.add(entity -> plugin.getUpdateTask().saveEntities(entity));
+        }
+
+        // Attribute properties
+        final ConfigurationSection attributesSection = section.getConfigurationSection("attribute");
+        if (attributesSection != null) {
+            final EntityPropertyList<Attributable> attributablePropertyList = builder.getOrRegisterModifiers(Attributable.class);
+
+            for (String attributeKey : attributesSection.getKeys(false)) {
+                final Attribute attribute = getEnumConstant(Attribute.class, attributeKey);
+                if (attribute == null) {
+                    continue;
+                }
+                final ConfigurationSection attributeSection = attributesSection.getConfigurationSection(attributeKey);
+                if (attributeSection == null) {
+                    continue;
+                }
+                final double value = attributeSection.getDouble("value", 0d);
+                if (value == 0) {
+                    continue;
+                }
+                final EquipmentSlot slot = getEnumConstant(EquipmentSlot.class, attributeSection.getString("slot"));
+                final AttributeModifier.Operation operation = getEnumConstant(AttributeModifier.Operation.class, attributeSection.getString("operation"));
+                attributablePropertyList.add(new Consumer<>() {
+                    @Override
+                    public void accept(Attributable attributable) {
+                        final AttributeInstance instance = attributable.getAttribute(attribute);
+                        if (instance == null) {
+                            attributablePropertyList.getProperties().remove(this);
+                            return;
+                        }
+                        instance.addModifier(new AttributeModifier(
+                                UUID.randomUUID(),
+                                "AbstractMob-Serialized-" + attribute.name(),
+                                value,
+                                operation == null ? AttributeModifier.Operation.ADD_NUMBER : operation,
+                                slot
+                        ));
+                    }
+                });
+            }
         }
 
         return builder;
