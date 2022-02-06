@@ -106,7 +106,7 @@ public class EntityBuilderSerializer {
             final EntityPropertyList<LivingEntity> livingPropertyList = builder.getOrRegisterModifiers(LivingEntity.class);
 
             final boolean keepWhenFarAway = livingSection.getBoolean("keep-when-far-away", false);
-            livingPropertyList.add(living -> living.setRemoveWhenFarAway(keepWhenFarAway));
+            livingPropertyList.add(living -> living.setRemoveWhenFarAway(!keepWhenFarAway));
         }
 
         // Attribute properties
