@@ -69,7 +69,7 @@ public class EntityListener implements Listener {
     private void onArrow(EntityDamageEvent event) {
         if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
             final Entity entity = event.getEntity();
-            final List<MetadataValue> values = entity.getMetadata(plugin.getCustomKeys().LIGHTNING_ON_DEATH.getKey());
+            final List<MetadataValue> values = entity.getMetadata(plugin.getCustomKeys().PROJECTILE_RESISTANCE.getKey());
             if (values.isEmpty()) {
                 return;
             }
