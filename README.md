@@ -99,7 +99,7 @@ custom-zombie:
 You can deserialize it like that :
 
 ```java
-package fr.flowsqy.customraids;
+package fr.flowsqy.abstractmobexample;
 
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import fr.flowsqy.abstractmob.entity.EntityBuilder;
@@ -111,20 +111,21 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CustomRaidsPlugin extends JavaPlugin {
+public class AbstractMobExamplePlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
         final YamlConfiguration configuration; // You need to link it to the configuration
         final Plugin plugin = Bukkit.getPluginManager().getPlugin("AbstractMob");
         if (plugin instanceof AbstractMobPlugin abstractMobPlugin) {
+            // Deserialize the entity
             final EntityBuilder customEntity = EntityBuilderSerializer.deserialize(
                     abstractMobPlugin,
                     configuration.getConfigurationSection("custom-zombie")
             );
             // Do whatever you want with the custom zombie if it exists
             if (customEntity != null) {
-                // You can spawn it :
+                // For example, you can spawn it :
                 customEntity.spawn(abstractMobPlugin, new Location(0, 100, 0));
             }
         }
