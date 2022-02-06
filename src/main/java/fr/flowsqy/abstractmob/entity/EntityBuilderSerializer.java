@@ -100,6 +100,15 @@ public class EntityBuilderSerializer {
             }
         }
 
+        // Living properties
+        final ConfigurationSection livingSection = section.getConfigurationSection("living");
+        if (livingSection != null) {
+            final EntityPropertyList<LivingEntity> livingPropertyList = builder.getOrRegisterModifiers(LivingEntity.class);
+
+            final boolean keepWhenFarAway = livingSection.getBoolean("keep-when-far-away", false);
+            livingPropertyList.add(living -> living.setRemoveWhenFarAway(keepWhenFarAway));
+        }
+
         // Attribute properties
         final ConfigurationSection attributesSection = section.getConfigurationSection("attribute");
         if (attributesSection != null) {

@@ -14,6 +14,8 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
     web-on-walk: <web-chances>
     knockback-up: <knockback-up>
     projectile-resistance: <projectile-resistance>
+  living:
+    keep-when-far-away: <living-keep>
   attribute:
     <attribute-1>:
       value: <attribute-value>
@@ -39,6 +41,9 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # <web-chances> [integer] : (Must be between 0 and 100): The chances to spawn a cobweb when the entity change location
 # <knockback-up> [double] : The up value when a player is knocked by the entity. (In m/tick [1sec = 20 ticks])
 # <projectile-resistance> [boolean] : Whether the entity avoid damage from projectile
+#
+# Living:
+# <living-keep> [boolean] : Whether the entity is kept when the chunk is unloaded
 #
 # Attribute:
 # <attribute-n> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html] :
