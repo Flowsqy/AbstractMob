@@ -32,7 +32,7 @@ public class TraitLauncherTask extends ThreadedTask {
      * Load task for entities
      *
      * @param taskLoader A {@link BukkitTaskLoader} to start the task
-     * @param entities The entity associated with the task
+     * @param entities   The entity associated with the task
      */
     public void loadTaskEntities(BukkitTaskLoader taskLoader, Entity... entities) {
         queue(() -> {

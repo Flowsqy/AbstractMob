@@ -1,7 +1,5 @@
 package fr.flowsqy.abstractmob;
 
-import fr.flowsqy.abstractmob.entity.EntityBuilder;
-import fr.flowsqy.abstractmob.entity.EntityBuilderSerializer;
 import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import fr.flowsqy.abstractmob.trait.TraitLauncherTask;
@@ -12,10 +10,8 @@ import fr.flowsqy.abstractmob.updater.KeyUpdaters;
 import fr.flowsqy.abstractmob.updater.UpdateListener;
 import fr.flowsqy.abstractmob.updater.UpdaterTask;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.StringReader;
 import java.util.Random;
 
 public class AbstractMobPlugin extends JavaPlugin {
