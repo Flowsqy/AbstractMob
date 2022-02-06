@@ -42,7 +42,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # <web-chances> [integer] : (Must be between 0 and 100): The chances to spawn a cobweb when the entity change location
 # <knockback-up> [double] : The up value when a player is knocked by the entity. (In m/tick [1sec = 20 ticks])
 # <projectile-resistance> [boolean] : Whether the entity avoid damage from projectile
-# <name> [String] : The custom name of the entity
+# <name> [String] : The custom name of the entity. Support colors
 #
 # Living:
 # <living-keep> [boolean] : Whether the entity is kept when the chunk is unloaded

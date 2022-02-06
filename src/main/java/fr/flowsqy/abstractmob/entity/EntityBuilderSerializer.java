@@ -4,6 +4,7 @@ import fr.flowsqy.abstractmenu.item.ItemBuilder;
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
 import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.attribute.Attributable;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -101,9 +102,10 @@ public class EntityBuilderSerializer {
 
             final String name = baseSection.getString("name");
             if (name != null) {
+                final String coloredName = ChatColor.translateAlternateColorCodes('&', name);
                 entityPropertyList.add(
                         entity -> {
-                            entity.setCustomName(name);
+                            entity.setCustomName(coloredName);
                             entity.setCustomNameVisible(true);
                         }
                 );
