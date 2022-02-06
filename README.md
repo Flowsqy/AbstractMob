@@ -60,7 +60,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # Equipment:
 # <equipment-slot> ['main-hand', 'off-hand', 'helmet', 'chestplate', 'leggings' or 'boots'] :
 #   The equipment slot of the Entity to set
-# <equipment-item> [https://github.com/Flowsqy/AbstractMenu/template.yml] :
+# <equipment-item> [https://github.com/Flowsqy/AbstractMenu (item section)] :
 #   The item to set on the specific slot. Will be ignored if the entity can't support the slot of the item
 #
 # Creeper:
