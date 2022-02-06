@@ -98,6 +98,16 @@ public class EntityBuilderSerializer {
                                 new FixedMetadataValue(plugin, true)
                         ));
             }
+
+            final String name = baseSection.getString("name");
+            if (name != null) {
+                entityPropertyList.add(
+                        entity -> {
+                            entity.setCustomName(name);
+                            entity.setCustomNameVisible(true);
+                        }
+                );
+            }
         }
 
         // Living properties
