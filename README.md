@@ -1,6 +1,6 @@
 # AbstractMob
 
-A plugin Bukkit which offer an API to create entity with custom traits like spawning lightning at entity death with
+A Bukkit plugin which offer an API to create entity with custom traits like 'summon lightning at entity death' with
 ease. It also unifies the configuration format to allow simple yaml configuration for servers owners.
 
 ## Configuration
@@ -90,7 +90,7 @@ How to include the API with Maven:
 </project>
 ```
 
-If you have the configuration :
+If you have this configuration :
 
 ```yaml
 custom-zombie:
@@ -128,13 +128,15 @@ public class AbstractMobExamplePlugin extends JavaPlugin {
             // Do whatever you want with the custom zombie if it exists
             if (customEntity != null) {
                 // For example, you can spawn it :
-                customEntity.spawn(abstractMobPlugin, new Location(0, 100, 0));
+                customEntity.spawn(abstractMobPlugin, new Location(Bukkit.getWorld("world"), 0, 100, 0));
             }
         }
     }
 }
 ```
 
+And it will spawn two zombie at 0 100 0 in the world 'world'
+
 ## Building
 
-Just clone the repository and do `mvn clean install` or `mvn clean package`
+Just clone the repository and do `mvn clean install` or `mvn clean package`. The jar is in the _target_ directory.
