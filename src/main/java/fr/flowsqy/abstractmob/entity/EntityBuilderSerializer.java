@@ -89,6 +89,15 @@ public class EntityBuilderSerializer {
             }
 
             entityPropertyList.add(entity -> plugin.getUpdateTask().saveEntities(entity));
+
+            final boolean projectileResistance = baseSection.getBoolean("projectile-resistance", false);
+            if (projectileResistance) {
+                entityPropertyList
+                        .add(entity -> entity.setMetadata(
+                                customKeys.PROJECTILE_RESISTANCE.getKey(),
+                                new FixedMetadataValue(plugin, true)
+                        ));
+            }
         }
 
         // Attribute properties

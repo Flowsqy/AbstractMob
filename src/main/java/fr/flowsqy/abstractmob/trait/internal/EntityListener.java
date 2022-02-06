@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.metadata.MetadataValue;
 
@@ -62,6 +63,23 @@ public class EntityListener implements Listener {
         final double upValue = up / values.size();
 
         Bukkit.getScheduler().runTask(plugin, () -> event.getEntity().setVelocity(event.getEntity().getVelocity().setY(upValue)));
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    private void onArrow(EntityDamageEvent event) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
+            final Entity entity = event.getEntity();
+            final List<MetadataValue> values = entity.getMetadata(plugin.getCustomKeys().LIGHTNING_ON_DEATH.getKey());
+            if (values.isEmpty()) {
+                return;
+            }
+            if (values.stream()
+                    .filter(value -> value.getOwningPlugin() == plugin)
+                    .anyMatch(MetadataValue::asBoolean)
+            ) {
+                event.setCancelled(true);
+            }
+        }
     }
 
 
