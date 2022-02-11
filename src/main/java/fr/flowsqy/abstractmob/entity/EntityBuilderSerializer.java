@@ -47,7 +47,11 @@ public class EntityBuilderSerializer {
         if (entityType == null || entityType.equals(EntityType.UNKNOWN) || (entityClass = entityType.getEntityClass()) == null) {
             return null;
         }
-        final EntityBuilder builder = new EntityBuilder(entityClass, section.getInt("quantity", 1));
+        final EntityBuilder builder = new EntityBuilder(
+                entityClass,
+                section.getInt("quantity", 1),
+                section.getInt("radius", 0)
+        );
 
         // Edit properties
         final CustomKeys customKeys = plugin.getCustomKeys();

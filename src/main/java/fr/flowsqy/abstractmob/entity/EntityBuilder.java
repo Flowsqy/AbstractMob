@@ -13,11 +13,13 @@ public class EntityBuilder {
     private final Class<? extends Entity> type;
     private final List<EntityPropertyList<?>> modifiers;
     private int quantity;
+    private int radius;
 
-    public EntityBuilder(Class<? extends Entity> type, int quantity) {
+    public EntityBuilder(Class<? extends Entity> type, int quantity, int radius) {
         Objects.requireNonNull(type);
         this.type = type;
         setQuantity(quantity);
+        setRadius(radius);
         modifiers = new LinkedList<>();
     }
 
@@ -34,6 +36,17 @@ public class EntityBuilder {
             throw new IllegalArgumentException("Can not set quantity to 0 or bellow");
         }
         this.quantity = quantity;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        if (radius < 0) {
+            throw new IllegalArgumentException("Can not set the spawn radius to a negative number");
+        }
+        this.radius = radius;
     }
 
     @SuppressWarnings("unchecked")
@@ -58,7 +71,7 @@ public class EntityBuilder {
     }
 
     public void spawn(AbstractMobPlugin plugin, Location location) {
-        spawn(plugin, location, 0, false, quantity);
+        spawn(plugin, location, radius, false, quantity);
     }
 
     public void spawn(AbstractMobPlugin plugin, Location location, int radius) {

@@ -9,6 +9,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 <key>:
   type: <type>
   quantity: <quantity>
+  radius: <radius>
   base:
     lightning-on-death: <lightning-chances>
     web-on-walk: <web-chances>
@@ -36,6 +37,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # <type> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html] (Except UNKNOWN) :
 #   the entity type. This is the only required tag. It can not be null
 # <quantity> [integer] : The number of entity to spawn
+# <radius> [integer] : The radius of the circle where entity should spawn
 #
 # Base:
 # <lightning-chances> [integer] : (Must be between 0 and 100): The chances to spawn a lightning when entity died
