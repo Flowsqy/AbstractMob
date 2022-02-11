@@ -70,20 +70,20 @@ public class EntityBuilder {
         return entityPropertyList.get();
     }
 
-    public void spawn(AbstractMobPlugin plugin, Location location) {
-        spawn(plugin, location, radius, false, quantity);
+    public List<Entity> spawn(AbstractMobPlugin plugin, Location location) {
+        return spawn(plugin, location, radius, false, quantity);
     }
 
-    public void spawn(AbstractMobPlugin plugin, Location location, int radius) {
-        spawn(plugin, location, radius, false, quantity);
+    public List<Entity> spawn(AbstractMobPlugin plugin, Location location, int radius) {
+        return spawn(plugin, location, radius, false, quantity);
     }
 
-    public void spawn(AbstractMobPlugin plugin, Location location, int radius, boolean highestBlock) {
-        spawn(plugin, location, radius, highestBlock, quantity);
+    public List<Entity> spawn(AbstractMobPlugin plugin, Location location, int radius, boolean highestBlock) {
+        return spawn(plugin, location, radius, highestBlock, quantity);
     }
 
-    public void spawn(AbstractMobPlugin plugin, Location location, int radius, boolean highestBlock, int quantity) {
-        spawn(plugin, location, radius, highestBlock, quantity, plugin.getRandom());
+    public List<Entity> spawn(AbstractMobPlugin plugin, Location location, int radius, boolean highestBlock, int quantity) {
+        return spawn(plugin, location, radius, highestBlock, quantity, plugin.getRandom());
     }
 
     /**
@@ -95,14 +95,16 @@ public class EntityBuilder {
      * @param highestBlock Whether the entities must spawn at the highest block or at the y coordinate specified in 'location'
      * @param quantity     The quantity of entity to spawn
      * @param random       The random instance to use to randomly spawn entities in the radius. Can be {@code null} if the radius is equals to zero
+     * @return A {@link List} of the spawned entities
      */
-    public void spawn(AbstractMobPlugin plugin, Location location, int radius, boolean highestBlock, int quantity, Random random) {
+    public List<Entity> spawn(AbstractMobPlugin plugin, Location location, int radius, boolean highestBlock, int quantity, Random random) {
         Objects.requireNonNull(plugin);
         if (quantity < 1) {
             throw new IllegalArgumentException("Quantity can not be below 1");
         }
         final World world = location.getWorld();
         Objects.requireNonNull(world);
+        final List<Entity> entities = new LinkedList<>();
 
         final int doubledRadius = radius * 2;
         for (int i = 0; i < quantity; i++) {
@@ -119,13 +121,15 @@ public class EntityBuilder {
             if (highestBlock) {
                 spawnLocation = world.getHighestBlockAt(spawnLocation).getLocation().add(0, 1, 0);
             }
-            world.spawn(
+            final Entity spawnedEntity = world.spawn(
                     spawnLocation,
                     type,
                     false,
                     entity -> modifiers.forEach(list -> list.loadEntity(entity))
             );
+            entities.add(spawnedEntity);
         }
+        return entities;
     }
 
 }
