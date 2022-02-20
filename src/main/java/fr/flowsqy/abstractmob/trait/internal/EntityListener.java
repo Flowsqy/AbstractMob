@@ -10,9 +10,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
@@ -82,5 +80,24 @@ public class EntityListener implements Listener {
         }
     }
 
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void onBurn(EntityCombustEvent event) {
+        // Check if it's not sun
+        if (event instanceof EntityCombustByBlockEvent || event instanceof EntityCombustByEntityEvent) {
+            return;
+        }
+
+        final Entity entity = event.getEntity();
+        final List<MetadataValue> values = entity.getMetadata(plugin.getCustomKeys().SUN_RESISTANCE.getKey());
+        if (values.isEmpty()) {
+            return;
+        }
+        if (values.stream()
+                .filter(value -> value.getOwningPlugin() == plugin)
+                .anyMatch(MetadataValue::asBoolean)
+        ) {
+            event.setCancelled(true);
+        }
+    }
 
 }

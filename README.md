@@ -15,6 +15,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
     web-on-walk: <web-chances>
     knockback-up: <knockback-up>
     projectile-resistance: <projectile-resistance>
+    sun-resistance: <sun-resistance>
     name: <name>
   living:
     keep-when-far-away: <living-keep>
@@ -44,6 +45,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # <web-chances> [integer] : (Must be between 0 and 100): The chances to spawn a cobweb when the entity change location
 # <knockback-up> [double] : The up value when a player is knocked by the entity. (In m/tick [1sec = 20 ticks])
 # <projectile-resistance> [boolean] : Whether the entity avoid damage from projectile
+# <sun-resistance> [boolean] : Whether the entity avoid burning from the sun
 # <name> [String] : The custom name of the entity. Support colors
 #
 # Living:

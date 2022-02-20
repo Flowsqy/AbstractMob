@@ -100,6 +100,15 @@ public class EntityBuilderSerializer {
                         ));
             }
 
+            final boolean sunResistance = baseSection.getBoolean("sun-resistance", false);
+            if (sunResistance) {
+                entityPropertyList
+                        .add(entity -> entity.setMetadata(
+                                customKeys.SUN_RESISTANCE.getKey(),
+                                new FixedMetadataValue(plugin, true)
+                        ));
+            }
+
             final String name = baseSection.getString("name");
             if (name != null) {
                 final String coloredName = ChatColor.translateAlternateColorCodes('&', name);
