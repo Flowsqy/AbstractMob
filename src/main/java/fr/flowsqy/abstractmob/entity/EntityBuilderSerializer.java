@@ -22,7 +22,6 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class EntityBuilderSerializer {
 
@@ -145,22 +144,18 @@ public class EntityBuilderSerializer {
                 }
                 final EquipmentSlot slot = getEnumConstant(EquipmentSlot.class, attributeSection.getString("slot"));
                 final AttributeModifier.Operation operation = getEnumConstant(AttributeModifier.Operation.class, attributeSection.getString("operation"));
-                attributablePropertyList.add(new Consumer<>() {
-                    @Override
-                    public void accept(Attributable attributable) {
-                        final AttributeInstance instance = attributable.getAttribute(attribute);
-                        if (instance == null) {
-                            attributablePropertyList.getProperties().remove(this);
-                            return;
-                        }
-                        instance.addModifier(new AttributeModifier(
-                                UUID.randomUUID(),
-                                "AbstractMob-Serialized-" + attribute.name(),
-                                value,
-                                operation == null ? AttributeModifier.Operation.ADD_NUMBER : operation,
-                                slot
-                        ));
+                attributablePropertyList.add(attributable -> {
+                    final AttributeInstance instance = attributable.getAttribute(attribute);
+                    if (instance == null) {
+                        return;
                     }
+                    instance.addModifier(new AttributeModifier(
+                            UUID.randomUUID(),
+                            "AbstractMob-Serialized-" + attribute.name(),
+                            value,
+                            operation == null ? AttributeModifier.Operation.ADD_NUMBER : operation,
+                            slot
+                    ));
                 });
             }
         }
