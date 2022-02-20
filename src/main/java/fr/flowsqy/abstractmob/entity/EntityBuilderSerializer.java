@@ -10,10 +10,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Creeper;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -156,6 +153,11 @@ public class EntityBuilderSerializer {
                             operation == null ? AttributeModifier.Operation.ADD_NUMBER : operation,
                             slot
                     ));
+
+                    if (attribute == Attribute.GENERIC_MAX_HEALTH && attributable instanceof Damageable damageable) {
+                        damageable.setHealth(instance.getValue());
+                    }
+
                 });
             }
         }
