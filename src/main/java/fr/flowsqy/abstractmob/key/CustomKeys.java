@@ -9,7 +9,7 @@ import java.util.List;
 public class CustomKeys {
 
     public final CustomKey LIGHTNING_ON_DEATH;
-    public final CustomKey KNOCKBACK_UP;
+    public final CustomKey KNOCK_UP;
     public final CustomKey WEB_ON_WALK;
     public final CustomKey PROJECTILE_RESISTANCE;
     public final CustomKey SUN_RESISTANCE;
@@ -20,7 +20,7 @@ public class CustomKeys {
         keys = new LinkedList<>();
         final KeyUpdaters keyUpdaters = plugin.getKeyUpdaters();
         LIGHTNING_ON_DEATH = register(new CustomKey("lightning_on_death", keyUpdaters.CHANCES, plugin));
-        KNOCKBACK_UP = register(new CustomKey("knockback_up", keyUpdaters.DOUBLE, plugin));
+        KNOCK_UP = register(new CustomKey("knock_up", keyUpdaters.DOUBLE, plugin));
         WEB_ON_WALK = register(new CustomKey("web_on_walk", keyUpdaters.CHANCES, plugin));
         PROJECTILE_RESISTANCE = register(new CustomKey("projectile_resistance", keyUpdaters.BOOLEAN, plugin));
         SUN_RESISTANCE = register(new CustomKey("sun_resistance", keyUpdaters.BOOLEAN, plugin));

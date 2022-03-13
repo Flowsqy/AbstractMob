@@ -80,12 +80,12 @@ public class EntityBuilderSerializer {
 
             }
 
-            final double knockbackUp = baseSection.getDouble("knockback-up", 0);
-            if (knockbackUp != 0) {
+            final double knockUp = baseSection.getDouble("knock-up", 0);
+            if (knockUp != 0) {
                 entityPropertyList
                         .add(entity -> entity.setMetadata(
-                                customKeys.KNOCKBACK_UP.getKey(),
-                                new FixedMetadataValue(plugin, knockbackUp)
+                                customKeys.KNOCK_UP.getKey(),
+                                new FixedMetadataValue(plugin, knockUp)
                         ));
             }
 

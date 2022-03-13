@@ -50,7 +50,7 @@ public class EntityListener implements Listener {
         if (damagerEntity instanceof Projectile projectile && projectile.getShooter() instanceof Entity shooterEntity) {
             damagerEntity = shooterEntity;
         }
-        final List<MetadataValue> values = damagerEntity.getMetadata(plugin.getCustomKeys().KNOCKBACK_UP.getKey());
+        final List<MetadataValue> values = damagerEntity.getMetadata(plugin.getCustomKeys().KNOCK_UP.getKey());
         if (values.isEmpty()) {
             return;
         }
