@@ -24,6 +24,8 @@ public class EntityListener implements Listener {
         this.plugin = plugin;
     }
 
+    // Lightning feature
+
     @EventHandler(priority = EventPriority.MONITOR)
     private void onDeath(EntityDeathEvent event) {
         final LivingEntity entity = event.getEntity();
@@ -44,6 +46,8 @@ public class EntityListener implements Listener {
         }
     }
 
+    // Knock up feature
+
     @EventHandler(priority = EventPriority.MONITOR)
     private void onKnock(EntityDamageByEntityEvent event) {
         Entity damagerEntity = event.getDamager();
@@ -63,6 +67,8 @@ public class EntityListener implements Listener {
         Bukkit.getScheduler().runTask(plugin, () -> event.getEntity().setVelocity(event.getEntity().getVelocity().setY(upValue)));
     }
 
+    // Arrow resistance feature
+
     @EventHandler(priority = EventPriority.NORMAL)
     private void onArrow(EntityDamageEvent event) {
         if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {
@@ -79,6 +85,8 @@ public class EntityListener implements Listener {
             }
         }
     }
+
+    // Sun resistance feature
 
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onBurn(EntityCombustEvent event) {

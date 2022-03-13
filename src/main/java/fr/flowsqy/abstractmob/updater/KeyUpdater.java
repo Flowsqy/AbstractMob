@@ -31,7 +31,7 @@ public interface KeyUpdater {
 
     abstract class AbstractUpdater implements KeyUpdater {
 
-        protected AbstractMobPlugin plugin;
+        protected final AbstractMobPlugin plugin;
 
         protected AbstractUpdater(AbstractMobPlugin plugin) {
             this.plugin = plugin;
