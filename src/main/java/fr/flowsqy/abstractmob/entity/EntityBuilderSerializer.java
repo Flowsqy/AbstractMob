@@ -86,8 +86,6 @@ public class EntityBuilderSerializer {
                         ));
             }
 
-            entityPropertyList.add(entity -> plugin.getUpdateTask().saveEntities(entity));
-
             final boolean projectileResistance = baseSection.getBoolean("projectile-resistance", false);
             if (projectileResistance) {
                 entityPropertyList

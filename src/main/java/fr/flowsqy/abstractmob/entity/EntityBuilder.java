@@ -130,8 +130,13 @@ public class EntityBuilder {
             entities.add(spawnedEntity);
         }
 
+        final Entity[] entityArray = entities.toArray(new Entity[0]);
+
         // Load entity tasks
-        plugin.getTraitTaskManager().loadEntities(entities.toArray(new Entity[0]));
+        plugin.getTraitTaskManager().loadEntities(entityArray);
+
+        // Save every entity traits in the permanent storage
+        plugin.getUpdateTask().saveEntities(entityArray);
 
         return entities;
     }
