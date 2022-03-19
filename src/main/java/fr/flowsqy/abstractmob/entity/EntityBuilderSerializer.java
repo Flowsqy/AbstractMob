@@ -69,13 +69,10 @@ public class EntityBuilderSerializer {
             final int spiderwebChances = clamp(baseSection.getInt("web-on-walk", 0), 100, 0);
             if (spiderwebChances != 0) {
                 entityPropertyList
-                        .add(entity -> {
-                                    entity.setMetadata(
-                                            customKeys.WEB_ON_WALK.getKey(),
-                                            new FixedMetadataValue(plugin, ChancesChecker.classicToPlugin(spiderwebChances))
-                                    );
-                                    plugin.getTraitLauncherTask().loadTaskEntities(plugin.getSpiderWebTaskLoader(), entity);
-                                }
+                        .add(entity -> entity.setMetadata(
+                                        customKeys.WEB_ON_WALK.getKey(),
+                                        new FixedMetadataValue(plugin, ChancesChecker.classicToPlugin(spiderwebChances))
+                                )
                         );
 
             }

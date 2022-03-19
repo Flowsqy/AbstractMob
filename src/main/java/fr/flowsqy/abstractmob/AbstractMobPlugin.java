@@ -4,9 +4,9 @@ import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import fr.flowsqy.abstractmob.trait.TraitLauncherTask;
 import fr.flowsqy.abstractmob.trait.TraitListenerManager;
-import fr.flowsqy.abstractmob.trait.internal.TraitTaskListener;
+import fr.flowsqy.abstractmob.trait.TraitTaskManager;
 import fr.flowsqy.abstractmob.trait.internal.listener.InternalListeners;
-import fr.flowsqy.abstractmob.trait.internal.SpiderWebTaskLoader;
+import fr.flowsqy.abstractmob.trait.internal.task.InternalTasks;
 import fr.flowsqy.abstractmob.updater.KeyUpdaters;
 import fr.flowsqy.abstractmob.updater.UpdateListener;
 import fr.flowsqy.abstractmob.updater.UpdaterTask;
@@ -22,8 +22,8 @@ public class AbstractMobPlugin extends JavaPlugin {
     private UpdaterTask updateTask;
     private Random random;
     private ChancesChecker chancesChecker;
-    private SpiderWebTaskLoader spiderWebTaskLoader;
     private TraitLauncherTask traitLauncherTask;
+    private TraitTaskManager traitTaskManager;
     private TraitListenerManager traitListenerManager;
 
     @Override
@@ -34,8 +34,8 @@ public class AbstractMobPlugin extends JavaPlugin {
 
         // Create trait tasks and task loaders
         traitLauncherTask = new TraitLauncherTask();
-        spiderWebTaskLoader = new SpiderWebTaskLoader(this);
-        Bukkit.getPluginManager().registerEvents(new TraitTaskListener(this), this);
+        traitTaskManager = new TraitTaskManager(this);
+        Bukkit.getPluginManager().registerEvents(traitTaskManager, this);
         traitLauncherTask.start();
 
         // Create update task, link it with listener and launch it
@@ -50,8 +50,9 @@ public class AbstractMobPlugin extends JavaPlugin {
         chancesChecker = new ChancesChecker(this);
         traitListenerManager = new TraitListenerManager();
 
-        // Register internals traits
+        // Register internals traits and tasks
         new InternalListeners(this);
+        new InternalTasks(this);
 
         // Run after all plugins initializations
         Bukkit.getScheduler().runTask(this, () -> {
@@ -65,6 +66,7 @@ public class AbstractMobPlugin extends JavaPlugin {
         Bukkit.getScheduler().cancelTasks(this);
         traitListenerManager.unregisterAll();
         traitListenerManager.clear();
+        traitTaskManager.clear();
     }
 
     public KeyUpdaters getKeyUpdaters() {
@@ -91,8 +93,8 @@ public class AbstractMobPlugin extends JavaPlugin {
         return traitListenerManager;
     }
 
-    public SpiderWebTaskLoader getSpiderWebTaskLoader() {
-        return spiderWebTaskLoader;
+    public TraitTaskManager getTraitTaskManager() {
+        return traitTaskManager;
     }
 
     public TraitLauncherTask getTraitLauncherTask() {

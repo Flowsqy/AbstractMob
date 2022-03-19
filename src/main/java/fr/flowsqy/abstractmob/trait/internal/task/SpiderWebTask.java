@@ -1,4 +1,4 @@
-package fr.flowsqy.abstractmob.trait.internal;
+package fr.flowsqy.abstractmob.trait.internal.task;
 
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import org.bukkit.Location;

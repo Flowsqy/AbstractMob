@@ -129,6 +129,10 @@ public class EntityBuilder {
             );
             entities.add(spawnedEntity);
         }
+
+        // Load entity tasks
+        plugin.getTraitTaskManager().loadEntities(entities.toArray(new Entity[0]));
+
         return entities;
     }
 
