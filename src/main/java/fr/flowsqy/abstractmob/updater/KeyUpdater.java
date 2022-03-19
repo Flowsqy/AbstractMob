@@ -78,6 +78,49 @@ public interface KeyUpdater {
 
     }
 
+    class StringUpdater extends AbstractUpdater {
+
+        StringUpdater(AbstractMobPlugin plugin) {
+            super(plugin);
+        }
+
+        @Override
+        public void load(CustomKey key, Entity... entities) {
+            for (Entity entity : entities) {
+                final String nameValue = entity.getPersistentDataContainer().get(key.getNamespacedKey(), PersistentDataType.STRING);
+                if (nameValue != null) {
+                    entity.setMetadata(
+                            key.getKey(),
+                            new FixedMetadataValue(plugin, nameValue)
+                    );
+                }
+            }
+        }
+
+        @Override
+        public void save(CustomKey key, Entity... entities) {
+            for (Entity entity : entities) {
+                final List<MetadataValue> values = entity.getMetadata(key.getKey());
+                if (values.isEmpty()) {
+                    continue;
+                }
+                final Optional<MetadataValue> pluginValue = values.stream()
+                        .filter(value -> value.getOwningPlugin() == plugin)
+                        .findAny();
+                if (pluginValue.isPresent()) {
+                    entity.getPersistentDataContainer().set(
+                            key.getNamespacedKey(),
+                            PersistentDataType.STRING,
+                            pluginValue.get().asString()
+                    );
+                } else {
+                    entity.getPersistentDataContainer().remove(key.getNamespacedKey());
+                }
+            }
+        }
+
+    }
+
     abstract class NumberUpdater<T extends Number> extends AbstractUpdater {
 
         protected NumberUpdater(AbstractMobPlugin plugin) {
