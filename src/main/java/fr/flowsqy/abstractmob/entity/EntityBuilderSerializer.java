@@ -116,6 +116,10 @@ public class EntityBuilderSerializer {
                         entity -> {
                             entity.setCustomName(coloredName);
                             entity.setCustomNameVisible(true);
+                            entity.setMetadata(
+                                    customKeys.CUSTOM_NAME.getKey(),
+                                    new FixedMetadataValue(plugin, coloredName)
+                            );
                         }
                 );
             }

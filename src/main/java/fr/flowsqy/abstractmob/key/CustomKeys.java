@@ -13,6 +13,7 @@ public class CustomKeys {
     public final CustomKey WEB_ON_WALK;
     public final CustomKey PROJECTILE_RESISTANCE;
     public final CustomKey SUN_RESISTANCE;
+    public final CustomKey CUSTOM_NAME;
 
     private final List<CustomKey> keys;
 
@@ -24,6 +25,7 @@ public class CustomKeys {
         WEB_ON_WALK = register(new CustomKey("web_on_walk", keyUpdaters.CHANCES, plugin));
         PROJECTILE_RESISTANCE = register(new CustomKey("projectile_resistance", keyUpdaters.BOOLEAN, plugin));
         SUN_RESISTANCE = register(new CustomKey("sun_resistance", keyUpdaters.BOOLEAN, plugin));
+        CUSTOM_NAME = register(new CustomKey("custom_name", keyUpdaters.STRING, plugin));
     }
 
     private CustomKey register(CustomKey customKey) {
