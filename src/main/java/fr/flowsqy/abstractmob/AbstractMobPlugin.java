@@ -3,9 +3,10 @@ package fr.flowsqy.abstractmob;
 import fr.flowsqy.abstractmob.key.CustomKeys;
 import fr.flowsqy.abstractmob.trait.ChancesChecker;
 import fr.flowsqy.abstractmob.trait.TraitLauncherTask;
-import fr.flowsqy.abstractmob.trait.internal.EntityListener;
-import fr.flowsqy.abstractmob.trait.internal.SpiderWebTaskLoader;
+import fr.flowsqy.abstractmob.trait.TraitListenerManager;
 import fr.flowsqy.abstractmob.trait.internal.TraitTaskListener;
+import fr.flowsqy.abstractmob.trait.internal.listener.InternalListeners;
+import fr.flowsqy.abstractmob.trait.internal.SpiderWebTaskLoader;
 import fr.flowsqy.abstractmob.updater.KeyUpdaters;
 import fr.flowsqy.abstractmob.updater.UpdateListener;
 import fr.flowsqy.abstractmob.updater.UpdaterTask;
@@ -23,6 +24,7 @@ public class AbstractMobPlugin extends JavaPlugin {
     private ChancesChecker chancesChecker;
     private SpiderWebTaskLoader spiderWebTaskLoader;
     private TraitLauncherTask traitLauncherTask;
+    private TraitListenerManager traitListenerManager;
 
     @Override
     public void onEnable() {
@@ -46,13 +48,23 @@ public class AbstractMobPlugin extends JavaPlugin {
         // Register traits
         random = new Random();
         chancesChecker = new ChancesChecker(this);
-        Bukkit.getPluginManager().registerEvents(new EntityListener(this), this);
+        traitListenerManager = new TraitListenerManager();
+
+        // Register internals traits
+        new InternalListeners(this);
+
+        // Run after all plugins initializations
+        Bukkit.getScheduler().runTask(this, () -> {
+            traitListenerManager.registerAll();
+        });
     }
 
     @Override
     public void onDisable() {
         updateTask.stop();
         Bukkit.getScheduler().cancelTasks(this);
+        traitListenerManager.unregisterAll();
+        traitListenerManager.clear();
     }
 
     public KeyUpdaters getKeyUpdaters() {
@@ -73,6 +85,10 @@ public class AbstractMobPlugin extends JavaPlugin {
 
     public ChancesChecker getChancesChecker() {
         return chancesChecker;
+    }
+
+    public TraitListenerManager getTraitListenerManager() {
+        return traitListenerManager;
     }
 
     public SpiderWebTaskLoader getSpiderWebTaskLoader() {
