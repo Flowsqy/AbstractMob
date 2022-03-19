@@ -14,6 +14,7 @@ public class CustomKeys {
     public final CustomKey PROJECTILE_RESISTANCE;
     public final CustomKey SUN_RESISTANCE;
     public final CustomKey CUSTOM_NAME;
+    public final CustomKey TRACK_LIFE;
 
     private final List<CustomKey> keys;
 
@@ -26,6 +27,7 @@ public class CustomKeys {
         PROJECTILE_RESISTANCE = register(new CustomKey("projectile_resistance", keyUpdaters.BOOLEAN, plugin));
         SUN_RESISTANCE = register(new CustomKey("sun_resistance", keyUpdaters.BOOLEAN, plugin));
         CUSTOM_NAME = register(new CustomKey("custom_name", keyUpdaters.STRING, plugin));
+        TRACK_LIFE = register(new CustomKey("track_life", keyUpdaters.BOOLEAN, plugin));
     }
 
     private CustomKey register(CustomKey customKey) {

@@ -116,6 +116,7 @@ public class EntityBuilderSerializer {
                         entity -> {
                             entity.setCustomName(coloredName);
                             entity.setCustomNameVisible(true);
+                            // Save it with placeholders
                             entity.setMetadata(
                                     customKeys.CUSTOM_NAME.getKey(),
                                     new FixedMetadataValue(plugin, coloredName)
@@ -132,6 +133,16 @@ public class EntityBuilderSerializer {
 
             final boolean keepWhenFarAway = livingSection.getBoolean("keep-when-far-away", false);
             livingPropertyList.add(living -> living.setRemoveWhenFarAway(!keepWhenFarAway));
+
+            final boolean trackLife = livingSection.getBoolean("track-life", false);
+            if (trackLife) {
+                livingPropertyList.add(
+                        living -> living.setMetadata(
+                                customKeys.TRACK_LIFE.getKey(),
+                                new FixedMetadataValue(plugin, true)
+                        )
+                );
+            }
         }
 
         // Attribute properties
