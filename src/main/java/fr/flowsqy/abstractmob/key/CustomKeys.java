@@ -16,6 +16,7 @@ public class CustomKeys {
     public final CustomKey CUSTOM_NAME;
     public final CustomKey TRACK_LIFE;
     public final CustomKey CANCEL_TRANSFORMATION;
+    public final CustomKey TRANSFER_TRAITS;
 
     private final List<CustomKey> keys;
 
@@ -30,6 +31,7 @@ public class CustomKeys {
         CUSTOM_NAME = register(new CustomKey("custom_name", keyUpdaters.STRING, plugin));
         TRACK_LIFE = register(new CustomKey("track_life", keyUpdaters.BOOLEAN, plugin));
         CANCEL_TRANSFORMATION = register(new CustomKey("cancel_transformation", keyUpdaters.BOOLEAN, plugin));
+        TRANSFER_TRAITS = register(new CustomKey("transfer_traits", keyUpdaters.BOOLEAN, plugin));
     }
 
     private CustomKey register(CustomKey customKey) {

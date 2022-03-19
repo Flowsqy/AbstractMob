@@ -12,6 +12,7 @@ public class InternalListeners {
         new LightningListener(plugin, traitListenerManager);
         new SunResistanceListener(plugin, traitListenerManager);
         new CancelTransformationListener(plugin, traitListenerManager);
+        new TransferTraitsListener(plugin, traitListenerManager);
     }
 
 }

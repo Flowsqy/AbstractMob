@@ -113,6 +113,15 @@ public class EntityBuilderSerializer {
                         ));
             }
 
+            final boolean transferTraits = baseSection.getBoolean("transfer-traits", false);
+            if (transferTraits) {
+                entityPropertyList
+                        .add(entity -> entity.setMetadata(
+                                customKeys.TRANSFER_TRAITS.getKey(),
+                                new FixedMetadataValue(plugin, true)
+                        ));
+            }
+
             final String name = baseSection.getString("name");
             if (name != null) {
                 final String coloredName = ChatColor.translateAlternateColorCodes('&', name);

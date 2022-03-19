@@ -17,6 +17,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
     projectile-resistance: <projectile-resistance>
     sun-resistance: <sun-resistance>
     cancel-transformation: <cancel-transformation>
+    transfer-traits: <transfer-traits>
     name: <name>
   living:
     keep-when-far-away: <living-keep>
@@ -48,6 +49,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # <projectile-resistance> [boolean] : Whether the entity avoid damage from projectile
 # <sun-resistance> [boolean] : Whether the entity avoid burning from the sun
 # <cancel-transformation> [boolean] : Whether entity transformation should be blocked (e.g. Zombie in drowned)
+# <transfer-traits> [boolean] : Whether the entity should transfer its traits when it transforms
 # <name> [String] : The custom name of the entity. Support colors
 #
 # Living:
