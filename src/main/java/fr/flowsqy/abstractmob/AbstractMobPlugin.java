@@ -25,6 +25,7 @@ public class AbstractMobPlugin extends JavaPlugin {
     private TraitLauncherTask traitLauncherTask;
     private TraitTaskManager traitTaskManager;
     private TraitListenerManager traitListenerManager;
+    private InternalListeners internalListeners;
 
     @Override
     public void onEnable() {
@@ -51,7 +52,7 @@ public class AbstractMobPlugin extends JavaPlugin {
         traitListenerManager = new TraitListenerManager();
 
         // Register internals traits and tasks
-        new InternalListeners(this);
+        internalListeners = new InternalListeners(this);
         new InternalTasks(this);
 
         // Run after all plugins initializations
@@ -99,5 +100,9 @@ public class AbstractMobPlugin extends JavaPlugin {
 
     public TraitLauncherTask getTraitLauncherTask() {
         return traitLauncherTask;
+    }
+
+    public InternalListeners getInternalListeners() {
+        return internalListeners;
     }
 }

@@ -150,10 +150,12 @@ public class EntityBuilderSerializer {
             final boolean trackLife = livingSection.getBoolean("track-life", false);
             if (trackLife) {
                 livingPropertyList.add(
-                        living -> living.setMetadata(
-                                customKeys.TRACK_LIFE.getKey(),
-                                new FixedMetadataValue(plugin, true)
-                        )
+                        living -> {
+                            living.setMetadata(
+                                    customKeys.TRACK_LIFE.getKey(),
+                                    new FixedMetadataValue(plugin, true));
+                            plugin.getInternalListeners().getLifeTrackerListener().refreshLife(living);
+                        }
                 );
             }
         }

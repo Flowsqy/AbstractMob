@@ -21,6 +21,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
     name: <name>
   living:
     keep-when-far-away: <living-keep>
+    track-life: <track-life>
   attribute:
     <attribute-1>:
       value: <attribute-value>
@@ -54,6 +55,9 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 #
 # Living:
 # <living-keep> [boolean] : Whether the entity is kept when the chunk is unloaded
+# <track-life> [boolean] : Whether the life of the entity should be tracked.
+#   When it sets to true, it adds '%health%', '%max-health%' and '%health-percentage%' placeholders in the custom name.
+#   If it's unset or set to false, these placeholders will not be replaced
 #
 # Attribute:
 # <attribute-n> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html] :
