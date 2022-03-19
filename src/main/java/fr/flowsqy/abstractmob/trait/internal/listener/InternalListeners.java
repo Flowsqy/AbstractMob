@@ -11,6 +11,7 @@ public class InternalListeners {
         new KnockUpListener(plugin, traitListenerManager);
         new LightningListener(plugin, traitListenerManager);
         new SunResistanceListener(plugin, traitListenerManager);
+        new CancelTransformationListener(plugin, traitListenerManager);
     }
 
 }

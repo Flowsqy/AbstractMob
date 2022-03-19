@@ -106,6 +106,15 @@ public class EntityBuilderSerializer {
                         ));
             }
 
+            final boolean cancelTransformation = baseSection.getBoolean("cancel-transformation", false);
+            if (cancelTransformation) {
+                entityPropertyList
+                        .add(entity -> entity.setMetadata(
+                                customKeys.CANCEL_TRANSFORMATION.getKey(),
+                                new FixedMetadataValue(plugin, true)
+                        ));
+            }
+
             final String name = baseSection.getString("name");
             if (name != null) {
                 final String coloredName = ChatColor.translateAlternateColorCodes('&', name);

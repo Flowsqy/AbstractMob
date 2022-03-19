@@ -16,6 +16,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
     knock-up: <knock-up>
     projectile-resistance: <projectile-resistance>
     sun-resistance: <sun-resistance>
+    cancel-transformation: <cancel-transformation>
     name: <name>
   living:
     keep-when-far-away: <living-keep>
@@ -46,6 +47,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # <knock-up> [double] : The up value when a player is knocked by the entity. (In m/tick [1sec = 20 ticks])
 # <projectile-resistance> [boolean] : Whether the entity avoid damage from projectile
 # <sun-resistance> [boolean] : Whether the entity avoid burning from the sun
+# <cancel-transformation> [boolean] : Whether entity transformation should be blocked (e.g. Zombie in drowned)
 # <name> [String] : The custom name of the entity. Support colors
 #
 # Living:
