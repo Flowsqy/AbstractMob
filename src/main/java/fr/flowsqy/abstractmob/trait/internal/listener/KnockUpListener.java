@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
+import java.util.Optional;
 
 public class KnockUpListener extends TraitListener {
 
@@ -28,11 +29,17 @@ public class KnockUpListener extends TraitListener {
         if (values.isEmpty()) {
             return;
         }
-        double up = 0;
-        for (MetadataValue value : values) {
-            up += value.asDouble();
+
+        final Optional<MetadataValue> pluginValue = values.stream()
+                .filter(value -> value.getOwningPlugin() == plugin)
+                .findAny();
+        if (pluginValue.isEmpty()) {
+            return;
         }
-        final double upValue = up / values.size();
+        final double upValue = pluginValue.get().asDouble();
+        if (upValue == 0) {
+            return;
+        }
 
         Bukkit.getScheduler().runTask(plugin, () -> event.getEntity().setVelocity(event.getEntity().getVelocity().setY(upValue)));
     }
