@@ -22,6 +22,12 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
   living:
     keep-when-far-away: <living-keep>
     track-life: <track-life>
+    potion-effects:
+      <potion-effect-n>:
+        type: <potion-type>
+        amplifier: <potion-amplifier>
+        ambient: <potion-ambient>
+        particles: <potion-particles>
   attribute:
     <attribute-1>:
       value: <attribute-value>
@@ -58,6 +64,15 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # <track-life> [boolean] : Whether the life of the entity should be tracked.
 #   When it sets to true, it adds '%health%', '%max-health%' and '%health-percentage%' placeholders in the custom name.
 #   If it's unset or set to false, these placeholders will not be replaced
+#
+# Potion:
+# <potion-effect-n> [String] : The key of the potion effect section.
+#   It can be whatever you want, it just needs to be unique.
+# <potion-type> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html] :
+#   The type of the potion effect. It's the only required property to apply the effect.
+# <potion-amplifier> [integer] : The potion 'level'. It must be greater than 0. 1 by default.
+# <potion-ambient> [boolean] : Whether the potion effect show massive particles. false by default.
+# <potion-particles> [boolean] : Whether the potion effect show particles. false by default.
 #
 # Attribute:
 # <attribute-n> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html] :

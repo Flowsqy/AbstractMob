@@ -15,7 +15,13 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.BiConsumer;
@@ -157,6 +163,57 @@ public class EntityBuilderSerializer {
                             plugin.getInternalListeners().getLifeTrackerListener().refreshLife(living);
                         }
                 );
+            }
+
+            // Potions properties
+            final ConfigurationSection potionEffectsSection = livingSection.getConfigurationSection("potion-effects");
+            if (potionEffectsSection != null) {
+                final List<PotionEffect> potionEffects = new LinkedList<>();
+                for (final String sectionKey : potionEffectsSection.getKeys(false)) {
+                    final ConfigurationSection potionEffectSection = potionEffectsSection.getConfigurationSection(sectionKey);
+                    if (potionEffectSection == null) {
+                        continue;
+                    }
+                    // Type
+                    final String rawType = potionEffectSection.getString("type");
+                    if (rawType == null || rawType.isBlank()) {
+                        continue;
+                    }
+                    PotionEffectType type = null;
+                    for (Field typeField : PotionEffectType.class.getDeclaredFields()) {
+                        if (typeField.getType() != PotionEffectType.class) {
+                            continue;
+                        }
+                        final int modifiers = typeField.getModifiers();
+                        if (!Modifier.isStatic(modifiers) || !Modifier.isPublic(modifiers)) {
+                            continue;
+                        }
+                        if (typeField.getName().equals(rawType)) {
+                            try {
+                                type = (PotionEffectType) typeField.get(null);
+                            } catch (IllegalAccessException ignored) {
+                            }
+                            break;
+                        }
+                    }
+                    if (type == null) {
+                        continue;
+                    }
+                    potionEffects.add(new PotionEffect(
+                            type,
+                            Integer.MAX_VALUE,
+                            Math.min(1, potionEffectSection.getInt("amplifier")) - 1,
+                            potionEffectSection.getBoolean("ambient"),
+                            potionEffectSection.getBoolean("particles")
+                    ));
+                }
+                if (!potionEffects.isEmpty()) {
+                    livingPropertyList.add(living -> {
+                        for (PotionEffect potionEffect : potionEffects) {
+                            living.addPotionEffect(potionEffect);
+                        }
+                    });
+                }
             }
         }
 
