@@ -153,7 +153,8 @@ public class AbstractMobExamplePlugin extends JavaPlugin {
             // Deserialize the entity
             final EntityBuilder customEntity = EntityBuilderSerializer.deserialize(
                     abstractMobPlugin,
-                    configuration.getConfigurationSection("custom-zombie")
+                    configuration.getConfigurationSection("custom-zombie"),
+                    getLogger()
             );
             // Do whatever you want with the custom zombie if it exists
             if (customEntity != null) {

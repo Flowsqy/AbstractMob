@@ -2,8 +2,8 @@ package fr.flowsqy.abstractmob.entity;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiConsumer;
+import java.util.logging.Logger;
 
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
@@ -24,6 +24,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import fr.flowsqy.abstractmenu.item.ItemBuilder;
 import fr.flowsqy.abstractmob.AbstractMobPlugin;
@@ -43,20 +45,27 @@ public class EntityBuilderSerializer {
      * @param plugin  The plugin instance used to get custom keys, set metadata and
      *                launch custom tasks
      * @param section The section to deserialize
+     * @param logger  The logger to use for warnings
      * @return An {@link EntityBuilder} described by the specified section
      */
-    public static EntityBuilder deserialize(AbstractMobPlugin plugin, ConfigurationSection section) {
-        Objects.requireNonNull(plugin);
-        Objects.requireNonNull(section);
+    @Nullable
+    public static EntityBuilder deserialize(@NotNull AbstractMobPlugin plugin, @NotNull ConfigurationSection section,
+            @NotNull Logger logger) {
         final String entityTypeRaw = section.getString("type");
+        if (entityTypeRaw == null) {
+            logger.warning("No entity type specified");
+            return null;
+        }
         final NamespacedKey entityTypeKey = NamespacedKey.fromString(entityTypeRaw);
         if (entityTypeKey == null) {
+            logger.warning("'" + entityTypeRaw + "' is not a valid ressource location");
             return null;
         }
         final EntityType entityType = Registry.ENTITY_TYPE.get(entityTypeKey);
         final Class<? extends Entity> entityClass;
         if (entityType == null || entityType.equals(EntityType.UNKNOWN)
                 || (entityClass = entityType.getEntityClass()) == null) {
+            logger.warning("'" + entityTypeKey.toString() + "' is not a valid entity type");
             return null;
         }
         final EntityBuilder builder = new EntityBuilder(
@@ -177,14 +186,17 @@ public class EntityBuilderSerializer {
                     // Type
                     final String rawType = potionEffectSection.getString("type");
                     if (rawType == null || rawType.isBlank()) {
+                        logger.warning("Potion type can't be null");
                         continue;
                     }
                     final NamespacedKey effectKey = NamespacedKey.fromString(rawType);
                     if (effectKey == null) {
+                        logger.warning("'" + rawType + "' is not a valid ressource location");
                         continue;
                     }
                     final PotionEffectType type = Registry.EFFECT.get(effectKey);
                     if (type == null) {
+                        logger.warning("'" + effectKey.toString() + "' is not a valid potion type");
                         continue;
                     }
                     potionEffects.add(new PotionEffect(
@@ -215,6 +227,7 @@ public class EntityBuilderSerializer {
                 try {
                     storedAttributeKey = new NamespacedKey(plugin, attributeKey);
                 } catch (Exception e) {
+                    logger.warning("'" + attributeKey + "' is not a valid ressource key");
                     continue;
                 }
                 final ConfigurationSection attributeSection = attributesSection.getConfigurationSection(attributeKey);
@@ -223,14 +236,17 @@ public class EntityBuilderSerializer {
                 }
                 final String rawAttribute = attributeSection.getString("name");
                 if (rawAttribute == null) {
+                    logger.warning("'" + attributeKey + "' should specify an attribute name");
                     continue;
                 }
                 final NamespacedKey attributeNamespacedKey = NamespacedKey.fromString(rawAttribute);
                 if (attributeNamespacedKey == null) {
+                    logger.warning("'" + rawAttribute + "' is not a valid ressource location");
                     continue;
                 }
                 final Attribute attribute = Registry.ATTRIBUTE.get(attributeNamespacedKey);
                 if (attribute == null) {
+                    logger.warning("'" + attributeNamespacedKey.toString() + "' is not a valid attribute name");
                     continue;
                 }
                 final double value = attributeSection.getDouble("value", 0d);
@@ -341,7 +357,8 @@ public class EntityBuilderSerializer {
         };
     }
 
-    private static <T extends Enum<T>> T getEnumConstant(Class<T> enumClass, String value) {
+    @Nullable
+    private static <T extends Enum<T>> T getEnumConstant(@NotNull Class<T> enumClass, @Nullable String value) {
         if (enumClass == null || value == null)
             return null;
 

@@ -1,12 +1,18 @@
 package fr.flowsqy.abstractmob.entity;
 
-import fr.flowsqy.abstractmob.AbstractMobPlugin;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Random;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import fr.flowsqy.abstractmob.AbstractMobPlugin;
 
 public class EntityBuilder {
 
@@ -57,6 +63,7 @@ public class EntityBuilder {
         return propertyList.map(entityPropertyList -> (EntityPropertyList<T>) entityPropertyList);
     }
 
+    @NotNull
     public <T> EntityPropertyList<T> getOrRegisterModifiers(Class<T> clazz) {
         final Optional<EntityPropertyList<T>> entityPropertyList = getModifiers(clazz);
         if (entityPropertyList.isEmpty()) {
