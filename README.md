@@ -30,6 +30,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
         particles: <potion-particles>
   attribute:
     <attribute-1>:
+      name: <attribute-name>
       value: <attribute-value>
       operation: <attribute-operation>
       slot: <attribute-slot>
@@ -44,7 +45,7 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # Where:
 #
 # <key> is the root key
-# <type> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/entity/EntityType.html] (Except UNKNOWN) :
+# <type> [https://minecraft.wiki/w/Java_Edition_data_values#Entities]:
 #   the entity type. This is the only required tag. It can not be null
 # <quantity> [integer] : The number of entity to spawn
 # <radius> [integer] : The radius of the circle where entity should spawn
@@ -68,21 +69,23 @@ ease. It also unifies the configuration format to allow simple yaml configuratio
 # Potion:
 # <potion-effect-n> [String] : The key of the potion effect section.
 #   It can be whatever you want, it just needs to be unique.
-# <potion-type> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/potion/PotionEffectType.html] :
+# <potion-type> [https://minecraft.wiki/w/Java_Edition_data_values#Effects] :
 #   The type of the potion effect. It's the only required property to apply the effect.
 # <potion-amplifier> [integer] : The potion 'level'. It must be greater than 0. 1 by default.
 # <potion-ambient> [boolean] : Whether the potion effect show massive particles. false by default.
 # <potion-particles> [boolean] : Whether the potion effect show particles. false by default.
 #
 # Attribute:
-# <attribute-n> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html] :
+# <attribute-n> [String] :
+#   The attribute key which will store the attribute. It should respect the ressource location format specified by minecraft
+# <attribute-name> [https://minecraft.wiki/w/Attribute#Attributes] :
 #   The attribute to modify. It will be skipped if the value is null, if the attribute is invalid or if the attribute
 #   isn't compatible with the specified entity type. You can have as many attribute as you want
 # <attribute-value> [double] : The modifier value (REQUIRED only for this attribute, not for the global entity)
 # <attribute-operation> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/AttributeModifier.Operation.html] :
 #   The operation to apply to the attribute. ADD_NUMBER by default
-# <attribute-slot> [https://hub.spigotmc.org/javadocs/spigot/org/bukkit/inventory/EquipmentSlot.html] :
-#   The slot in which the modifier is active. If not present, the modifier is effective permanently (default)
+# <attribute-slot> ['any', 'armor', 'chest', 'feet', 'hand', 'head', 'legs', 'mainhand', 'offhand'] :
+#   The slot group in which the modifier is active. 'any' by default
 #
 # Equipment:
 # <equipment-slot> ['main-hand', 'off-hand', 'helmet', 'chestplate', 'leggings' or 'boots'] :
@@ -121,7 +124,7 @@ If you have this configuration :
 
 ```yaml
 custom-zombie:
-  type: ZOMBIE
+  type: zombie
   quantity: 2
 ```
 

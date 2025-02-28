@@ -88,7 +88,7 @@ public class LifeTrackerListener extends TraitListener {
     private void updateCustomName(LivingEntity livingEntity, String customName) {
         final double health = livingEntity.getHealth();
         String formattedCustomName = customName.replace("%health%", lifeFormat.format(health));
-        final AttributeInstance instance = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        final AttributeInstance instance = livingEntity.getAttribute(Attribute.MAX_HEALTH);
         if (instance != null) {
             final double maxHealth = instance.getValue();
             formattedCustomName = formattedCustomName
