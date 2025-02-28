@@ -170,4 +170,4 @@ And it will spawn two zombie at 0 100 0 in the world 'world'
 
 ## Building
 
-Just clone the repository and do `mvn clean install` or `mvn clean package`. The jar is in the _target_ directory.
+Just clone the repository and do `./gradlew clean build`. The jar is in the _plugin/build/libs/_ directory.
