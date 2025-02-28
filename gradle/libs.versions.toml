@@ -1,0 +1,9 @@
+[versions]
+abstractmenu = "2.0.1"
+jetbrains-annotations = "26.0.2"
+spigot-api = "1.21.4-R0.1-SNAPSHOT"
+
+[libraries]
+abstractmenu = { module = "com.github.Flowsqy:AbstractMenu", version.ref = "abstractmenu" }
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrains-annotations" }
+spigot-api = { module = "org.spigotmc:spigot-api", version.ref = "spigot-api" }
