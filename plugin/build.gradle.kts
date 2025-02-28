@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    `maven-publish`
 }
 
 repositories {
@@ -13,9 +14,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.jetbrains.annotations)
-    compileOnly(libs.spigot.api)
-    compileOnly(libs.abstractmenu)
+    implementation(libs.jetbrains.annotations)
+    implementation(libs.spigot.api)
+    implementation(libs.abstractmenu)
 }
 
 java {
@@ -31,3 +32,15 @@ version = "1.0.1-SNAPSHOT"
 tasks.processResources {
     expand(Pair("version", version))
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = project.group.toString()
+            artifactId = rootProject.name
+            version = project.version.toString()
+            from(components["java"])
+        }
+    }
+}
+
