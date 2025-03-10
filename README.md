@@ -114,7 +114,7 @@ How to include the API with Maven:
         <dependency>
             <groupId>com.github.Flowsqy</groupId>
             <artifactId>AbstractMob</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
     </dependencies>
 </project>
