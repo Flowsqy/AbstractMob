@@ -27,7 +27,7 @@ java {
 
 project.base.archivesName.set(rootProject.name)
 group = "fr.flowsqy.abstractmob"
-version = "1.0.1-SNAPSHOT"
+version = "1.0.1"
 
 tasks.processResources {
     expand(Pair("version", version))
